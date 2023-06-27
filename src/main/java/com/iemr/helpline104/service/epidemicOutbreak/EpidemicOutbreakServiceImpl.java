@@ -1,0 +1,199 @@
+package com.iemr.helpline104.service.epidemicOutbreak;
+
+import java.math.BigInteger;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Objects;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.iemr.helpline104.controller.epidemicOutbreak.EpidemicOutbreakController;
+import com.iemr.helpline104.data.epidemicOutbreak.T_EpidemicOutbreak;
+import com.iemr.helpline104.data.feedback.FeedbackDetails;
+import com.iemr.helpline104.data.feedbackType.M_FeedbackType;
+import com.iemr.helpline104.repository.beneficiarycall.BenCallRepository;
+import com.iemr.helpline104.repository.epidemicOutbreak.EpidemicOutbreakRepository;
+import com.iemr.helpline104.repository.feedbackType.FeedbackTypeRepository;
+import com.iemr.helpline104.repository.location.LocationCityRepository;
+import com.iemr.helpline104.repository.location.LocationDistrictBlockRepository;
+import com.iemr.helpline104.repository.location.LocationDistrictRepository;
+import com.iemr.helpline104.utils.config.ConfigProperties;
+import com.iemr.helpline104.utils.exception.IEMRException;
+import com.iemr.helpline104.utils.http.HttpUtils;
+import com.iemr.helpline104.utils.mapper.InputMapper;
+import com.iemr.helpline104.utils.mapper.OutputMapper;
+import com.iemr.helpline104.utils.response.OutputResponse;
+
+@Service
+public class EpidemicOutbreakServiceImpl implements EpidemicOutbreakService {
+
+	@Autowired
+	private EpidemicOutbreakRepository epidemicOutbreakRepository;
+
+	@Autowired
+	private LocationCityRepository locationCityRepository;
+
+	@Autowired
+	private LocationDistrictBlockRepository locationDistrictBlockRepository;
+
+	@Autowired
+	private LocationDistrictRepository locationDistrictRepository;
+
+	@Autowired
+	FeedbackTypeRepository feedbackRepositorty;
+
+	@Autowired
+	private BenCallRepository benCallRepository;
+
+	private InputMapper inputMapper = new InputMapper();
+
+	private ConfigProperties properties;
+
+	private Logger logger = LoggerFactory.getLogger(EpidemicOutbreakController.class);
+
+	@Override
+	public T_EpidemicOutbreak save(T_EpidemicOutbreak t_epidemicOutbreak, HttpServletRequest request) throws Exception {
+
+		t_epidemicOutbreak = epidemicOutbreakRepository.save(t_epidemicOutbreak);
+		String requestID = "EC/" + t_epidemicOutbreak.getAffectedDistrictID() + "/"
+				+ new SimpleDateFormat("ddMMyyyy").format(Calendar.getInstance().getTimeInMillis()) + "/"
+				+ t_epidemicOutbreak.getOutbreakComplaintID();
+		t_epidemicOutbreak.setRequestID(requestID);
+		t_epidemicOutbreak = epidemicOutbreakRepository.save(t_epidemicOutbreak);
+
+		FeedbackDetails feedbackDetails = new FeedbackDetails();
+
+		feedbackDetails.setBeneficiaryRegID(t_epidemicOutbreak.getBeneficiaryRegID());
+		feedbackDetails.setCreatedBy(t_epidemicOutbreak.getCreatedBy());
+		feedbackDetails.setBenCallID(t_epidemicOutbreak.getBenCallID());
+		feedbackDetails.setRequestID(t_epidemicOutbreak.getRequestID());
+
+		String blockName = locationDistrictBlockRepository.findOne(t_epidemicOutbreak.getAffectedDistrictBlockID())
+				.getBlockName();
+		String districtName = locationDistrictRepository.findByDistrictID(t_epidemicOutbreak.getAffectedDistrictID());
+
+		String epidemicOutbreakString = "Outbreak ComplaintID: " + t_epidemicOutbreak.getOutbreakComplaintID() + ", "
+				+ "Nature Of Complaint: " + t_epidemicOutbreak.getNatureOfComplaint() + ", " + "Total People Affected: "
+				+ t_epidemicOutbreak.getTotalPeopleAffected() + ", " + "Affected District: " + districtName + ", "
+				+ ", " + "Affected Sub-District: " + blockName + ", " + "Remarks: " + t_epidemicOutbreak.getRemarks();
+
+		feedbackDetails.setFeedback(epidemicOutbreakString);
+		feedbackDetails.setServiceID(t_epidemicOutbreak.getServiceID());
+
+		M_FeedbackType feedbackType = feedbackRepositorty.findEpidemicFeedbackTypeID(t_epidemicOutbreak.getServiceID());
+		logger.info("feedbackType: " + feedbackType.toString());
+
+		if (feedbackType != null) {
+			feedbackDetails.setFeedbackTypeID(feedbackType.getFeedbackTypeID());
+		}
+
+		FeedbackDetails[] feedbacks = new FeedbackDetails[1];
+		feedbacks[0] = feedbackDetails;
+
+		logger.info(
+				"EpidemicOutbreak createFeedback request " + new OutputMapper().gson().toJson(feedbacks).toString());
+
+		createFeedback(new OutputMapper().gson().toJson(feedbacks).toString(), request);
+
+		return t_epidemicOutbreak;
+	}
+
+	@Override
+	public List<T_EpidemicOutbreak> getEpidemicOutbreakComplaints(Long benificiaryRegID, Long benCallID,
+			String requestID, String phoneNo) throws Exception {
+		List<T_EpidemicOutbreak> epidemicOutbreakList = new ArrayList<T_EpidemicOutbreak>();
+
+		List<Objects[]> epidemicOutbreak = null;
+
+		if (benificiaryRegID != null)
+			epidemicOutbreak = epidemicOutbreakRepository.getEpidemicOutbreakComplaints(benificiaryRegID);
+		else if (benCallID != null)
+			epidemicOutbreak = epidemicOutbreakRepository.getEpidemicOutbreakComplaintsByBenCallID(benCallID);
+		else if (requestID != null) {
+			// epidemicOutbreak =
+			// epidemicOutbreakRepository.getEpidemicOutbreakComplaintsByRequestID(requestID);
+			String ar[] = requestID.split("/");
+			if (ar.length > 0)
+				epidemicOutbreak = epidemicOutbreakRepository
+						.getEpidemicOutbreakComplaintsByRequestIDNew(Long.parseLong(ar[ar.length - 1]));
+		} else if (phoneNo != null) {
+			ArrayList<BigInteger> benRegIds = epidemicOutbreakRepository.findByPhoneNum(phoneNo);
+			List<Long> list1 = new ArrayList<>();
+			for (BigInteger bi : benRegIds) {
+				list1.add(bi.longValue());
+			}
+			if (list1 != null && list1.size() > 0)
+				epidemicOutbreak = epidemicOutbreakRepository.findByBenRegIDs(list1);
+//			else
+//				throw new Exception("No generic grievance found with this phone number");
+
+		}
+		T_EpidemicOutbreak tEpidemicOutbreak;
+
+		for (Object[] objects : epidemicOutbreak) {
+			if (objects != null && objects.length > 0) {
+				tEpidemicOutbreak = new T_EpidemicOutbreak((Long) objects[0], (String) objects[1], (Long) objects[2],
+						(String) objects[3], (Integer) objects[4], (Integer) objects[5], (String) objects[6],
+						(Integer) objects[7], (String) objects[8], (Integer) objects[9], (String) objects[10],
+						(String) objects[11], (Timestamp) objects[12]);
+
+				if (benCallID != null)
+					tEpidemicOutbreak.setBenCall(benCallRepository.findByBenCallID(benCallID));
+
+				epidemicOutbreakList.add(tEpidemicOutbreak);
+			}
+		}
+		return epidemicOutbreakList;
+	}
+
+	private OutputResponse createFeedback(String feedbackDetails, HttpServletRequest request) throws IEMRException {
+		HttpUtils utils = new HttpUtils();
+		HashMap<String, Object> header = new HashMap<String, Object>();
+		header.put("Authorization", request.getHeader("Authorization"));
+		String responseStr = utils.post(
+				properties.getPropertyByName("common-url") + "/" + properties.getPropertyByName("create-feedback"),
+				feedbackDetails, header);
+		OutputResponse response = inputMapper.gson().fromJson(responseStr, OutputResponse.class);
+		// response.setResponse(responseStr);
+		return response;
+	}
+
+	@Override
+	public String UpdateEpidemicOutbreakRequest(T_EpidemicOutbreak epidemicOutbreakComplaint) throws Exception {
+		T_EpidemicOutbreak resultSet = epidemicOutbreakRepository
+				.searchByRequestID(epidemicOutbreakComplaint.getRequestID());
+		if (resultSet != null) {
+			if (epidemicOutbreakComplaint.getAffectedDistrictID() != null)
+				resultSet.setAffectedDistrictID(epidemicOutbreakComplaint.getAffectedDistrictID());
+			if (epidemicOutbreakComplaint.getAffectedDistrictBlockID() != null)
+				resultSet.setAffectedDistrictBlockID(epidemicOutbreakComplaint.getAffectedDistrictBlockID());
+			if (epidemicOutbreakComplaint.getAffectedVillageID() != null)
+				resultSet.setAffectedVillageID(epidemicOutbreakComplaint.getAffectedVillageID());
+			if (epidemicOutbreakComplaint.getNatureOfComplaint() != null)
+				resultSet.setNatureOfComplaint(epidemicOutbreakComplaint.getNatureOfComplaint());
+			if (epidemicOutbreakComplaint.getTotalPeopleAffected() != null)
+				resultSet.setTotalPeopleAffected(epidemicOutbreakComplaint.getTotalPeopleAffected());
+			if (epidemicOutbreakComplaint.getRemarks() != null)
+				resultSet.setRemarks(epidemicOutbreakComplaint.getRemarks());
+
+			epidemicOutbreakComplaint = epidemicOutbreakRepository.save(resultSet);
+
+			if (resultSet.getOutbreakComplaintID() == epidemicOutbreakComplaint.getOutbreakComplaintID()) {
+				return "Data updated successfully";
+			} else
+				return null;
+
+		} else
+			throw new Exception("No record found for given request ID");
+	}
+
+}

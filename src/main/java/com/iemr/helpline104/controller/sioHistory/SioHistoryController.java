@@ -1,0 +1,84 @@
+package com.iemr.helpline104.controller.sioHistory;
+
+import javax.ws.rs.core.MediaType;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.iemr.helpline104.data.sioHistory.SioHistory;
+import com.iemr.helpline104.service.bloodComponentType.BloodComponentTypeServiceImpl;
+import com.iemr.helpline104.service.bloodRequest.BloodRequestServiceImpl;
+import com.iemr.helpline104.service.directory.DirectoryServiceImpl;
+import com.iemr.helpline104.service.epidemicOutbreak.EpidemicOutbreakServiceImpl;
+import com.iemr.helpline104.service.foodSafetyCopmlaint.FoodSafetyCopmlaintServiceImpl;
+import com.iemr.helpline104.service.organDonation.OrganDonationServiceImpl;
+import com.iemr.helpline104.utils.mapper.InputMapper;
+import com.iemr.helpline104.utils.response.OutputResponse;
+
+/**
+ * Controller class to get the Sio history data for a particular beneficiary
+ *
+ */
+@RequestMapping(value = "/beneficiary")
+@RestController
+public class SioHistoryController {
+
+	InputMapper mapper = new InputMapper();
+	private Logger logger = LoggerFactory.getLogger(SioHistoryController.class);
+
+	@Autowired
+	private BloodRequestServiceImpl bloodRequestServiceImpl;
+	@Autowired
+	private BloodComponentTypeServiceImpl bloodComponentTypeServiceImpl;
+	@Autowired
+	private EpidemicOutbreakServiceImpl epidemicOutbreakServiceImpl;
+	@Autowired
+	private OrganDonationServiceImpl organDonationServiceImpl;
+	@Autowired
+	private DirectoryServiceImpl directoryServiceImpl;
+	@Autowired
+	private FoodSafetyCopmlaintServiceImpl foodSafetyCopmlaintServiceImpl;
+
+	@CrossOrigin
+	@RequestMapping(value = "/getSioHistory", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON, consumes = MediaType.APPLICATION_JSON, headers = "Authorization")
+	public String getSioHistory(@RequestBody String benificiary) {
+
+		logger.info("getSioHistory request " + benificiary.toString());
+		SioHistory sioHistoryData = new SioHistory();
+		OutputResponse output = new OutputResponse();
+		try {
+			JSONObject j = new JSONObject(benificiary);
+			Long benificiaryRegID = j.getLong("benificiaryRegID");
+			sioHistoryData.setT_bloodRequest(bloodRequestServiceImpl.getBloodRequest(benificiaryRegID, null, null));
+			sioHistoryData.setM_componentType(bloodComponentTypeServiceImpl.getBloodComponentTypes());
+			sioHistoryData.setM_bloodGroup(bloodComponentTypeServiceImpl.getBloodGroups());
+			sioHistoryData.setT_epidemicOutbreak(
+					epidemicOutbreakServiceImpl.getEpidemicOutbreakComplaints(benificiaryRegID, null, null, null));
+			sioHistoryData.setT_organDonation(
+					organDonationServiceImpl.getOrganDonationRequests(benificiaryRegID, null, null));
+			sioHistoryData.setM_donationType(organDonationServiceImpl.getDonationTypes());
+			sioHistoryData.setM_donatableOrgan(organDonationServiceImpl.getDonatableOrgans());
+			sioHistoryData.setDirectory(directoryServiceImpl.getDirectories());
+			sioHistoryData.setT_foodSafetyCopmlaint(
+					foodSafetyCopmlaintServiceImpl.getFoodSafetyComplaints(benificiaryRegID, null, null, null));
+			output.setResponse(sioHistoryData.toString());
+		} catch (JSONException e) {
+			logger.error("getSioHistory failed with error " + e.getMessage(), e);
+			output.setError(e);
+		} catch (Exception e) {
+			logger.error("getSioHistory failed with error " + e.getMessage(), e);
+			output.setError(e);
+		}
+		logger.info("getSioHistory response: " + output);
+		return output.toString();
+	}
+
+}
