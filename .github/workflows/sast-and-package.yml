@@ -48,5 +48,5 @@ jobs:
     - name: Upload WAR file as artifact
       uses: actions/upload-artifact@v2 
       with:
-        name: HelplineMCTS-API
+        name: Helpline104-API
         path: target/104api-v1.0.war  
