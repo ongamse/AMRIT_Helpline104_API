@@ -1,8 +1,8 @@
 name: Static Code Analysis and Packaging
-true:
+on:
   push:
-    branches:
-    - develop
+    branches: [ "develop" ]
+    
 jobs:
   CodeQL:
     runs-on: ubuntu-latest
