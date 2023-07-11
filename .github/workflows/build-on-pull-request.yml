@@ -1,9 +1,8 @@
 name: Build On Pull Request
-true:
+on:
   pull_request:
-    branches:
-    - master
-    - develop
+    branches: [ "master","develop" ]
+    
 jobs:
   Build:
     runs-on: ubuntu-latest
