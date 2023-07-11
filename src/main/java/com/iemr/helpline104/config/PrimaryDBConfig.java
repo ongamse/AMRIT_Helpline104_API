@@ -25,7 +25,6 @@ import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 import org.apache.tomcat.jdbc.pool.PoolConfiguration;
 import org.apache.tomcat.jdbc.pool.PoolProperties;
-import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -39,14 +38,12 @@ import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+
 import com.iemr.helpline104.utils.config.ConfigProperties;
-
-
 
 @Configuration
 @EnableTransactionManagement
-@EnableJpaRepositories(entityManagerFactoryRef = "entityManagerFactory", 
-basePackages = { "com.iemr.helpline104.repo",
+@EnableJpaRepositories(entityManagerFactoryRef = "entityManagerFactory", basePackages = { "com.iemr.helpline104.repo",
 		"com.iemr.helpline104.repo", "com.iemr.helpline104.*", "com.iemr.helpline104.*" })
 public class PrimaryDBConfig {
 	Logger logger = LoggerFactory.getLogger(this.getClass().getName());
@@ -70,22 +67,12 @@ public class PrimaryDBConfig {
 		org.apache.tomcat.jdbc.pool.DataSource datasource = new org.apache.tomcat.jdbc.pool.DataSource();
 		datasource.setPoolProperties(p);
 
-		StandardPBEStringEncryptor encryptor = new StandardPBEStringEncryptor();
-		encryptor.setAlgorithm("PBEWithMD5AndDES");
-
-		encryptor.setPassword("dev-env-secret");
-
-//		logger.info(encryptor.decrypt(ConfigProperties.getPropertyByName("encDbUserName")));
-//		logger.info(encryptor.decrypt(ConfigProperties.getPropertyByName("encDbPass")));
-
-		datasource.setUsername(encryptor.decrypt(ConfigProperties.getPropertyByName("encDbUserName")));
-		datasource.setPassword(encryptor.decrypt(ConfigProperties.getPropertyByName("encDbPass")));
+		datasource.setUsername(ConfigProperties.getPropertyByName("spring.datasource.username"));
+		datasource.setPassword(ConfigProperties.getPropertyByName("spring.datasource.password"));
 
 		return datasource;
 	}
 
-
-	
 	@Primary
 	@Bean(name = "entityManagerFactory")
 	public LocalContainerEntityManagerFactoryBean entityManagerFactory(EntityManagerFactoryBuilder builder,
@@ -94,7 +81,6 @@ public class PrimaryDBConfig {
 				"com.iemr.helpline104.*", "com.iemr.helpline104.*").persistenceUnit("db_iemr").build();
 	}
 
-	
 	@Primary
 	@Bean(name = "transactionManager")
 	public PlatformTransactionManager transactionManager(
