@@ -43,8 +43,7 @@ import com.iemr.helpline104.utils.config.ConfigProperties;
 
 @Configuration
 @EnableTransactionManagement
-@EnableJpaRepositories(entityManagerFactoryRef = "entityManagerFactory", basePackages = { "com.iemr.helpline104.repo",
-		"com.iemr.helpline104.repo", "com.iemr.helpline104.*", "com.iemr.helpline104.*" })
+@EnableJpaRepositories(entityManagerFactoryRef = "entityManagerFactory", basePackages = { "com.iemr.helpline104.repository","com.iemr.helpline104.reposotory" })
 public class PrimaryDBConfig {
 	Logger logger = LoggerFactory.getLogger(this.getClass().getName());
 
@@ -67,9 +66,6 @@ public class PrimaryDBConfig {
 		org.apache.tomcat.jdbc.pool.DataSource datasource = new org.apache.tomcat.jdbc.pool.DataSource();
 		datasource.setPoolProperties(p);
 
-		datasource.setUsername(ConfigProperties.getPropertyByName("spring.datasource.username"));
-		datasource.setPassword(ConfigProperties.getPropertyByName("spring.datasource.password"));
-
 		return datasource;
 	}
 
@@ -77,8 +73,7 @@ public class PrimaryDBConfig {
 	@Bean(name = "entityManagerFactory")
 	public LocalContainerEntityManagerFactoryBean entityManagerFactory(EntityManagerFactoryBuilder builder,
 			@Qualifier("dataSource") DataSource dataSource) {
-		return builder.dataSource(dataSource).packages("com.iemr.helpline104.data", "com.iemr.helpline104.*",
-				"com.iemr.helpline104.*", "com.iemr.helpline104.*").persistenceUnit("db_iemr").build();
+		return builder.dataSource(dataSource).packages("com.iemr.helpline104.data").persistenceUnit("db_iemr").build();
 	}
 
 	@Primary
