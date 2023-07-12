@@ -42,7 +42,7 @@ import com.iemr.helpline104.utils.config.ConfigProperties;
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories(entityManagerFactoryRef = "secondaryEntityManagerFactory", transactionManagerRef = "secondaryTransactionManager", basePackages = {
-		"com.iemr.helpline104.*" })
+		"com.iemr.helpline104.secondary.repo.report" })
 public class SecondaryDBConfig {
 	@Bean(name = "secondaryDataSource")
 	@ConfigurationProperties(prefix = "secondary.datasource")
@@ -61,16 +61,14 @@ public class SecondaryDBConfig {
 		p.setValidationQuery("SELECT 1");
 		org.apache.tomcat.jdbc.pool.DataSource datasource = new org.apache.tomcat.jdbc.pool.DataSource();
 		datasource.setPoolProperties(p);
-		datasource.setUsername(ConfigProperties.getPropertyByName("secondary.datasource.username"));
-		datasource.setPassword(ConfigProperties.getPropertyByName("secondary.datasource.password"));
-
+		
 		return datasource;
 	}
 
 	@Bean(name = "secondaryEntityManagerFactory")
 	public LocalContainerEntityManagerFactoryBean barEntityManagerFactory(EntityManagerFactoryBuilder builder,
 			@Qualifier("secondaryDataSource") DataSource dataSource) {
-		return builder.dataSource(dataSource).packages("com.iemr.helpline104.*").persistenceUnit("db_reporting")
+		return builder.dataSource(dataSource).packages("com.iemr.helpline104.secondary.data").persistenceUnit("db_reporting")
 				.build();
 	}
 

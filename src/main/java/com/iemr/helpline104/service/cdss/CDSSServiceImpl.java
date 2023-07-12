@@ -33,6 +33,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
+import org.springframework.util.StringUtils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
@@ -72,11 +74,35 @@ public class CDSSServiceImpl implements CDSSService {
 
 	@Override
 	public List<String> getSymptoms(SymptomsWrapper symptomsDetails) {
-		// TODO Auto-generated method stub
-
-		return dbConnect.getSymptoms(symptomsDetails.getGender(),symptomsDetails.getAge());
+		List<String> symptoms = dbConnect.getSymptoms(symptomsDetails.getGender(),symptomsDetails.getAge());
+		if(null != symptoms && !ObjectUtils.isEmpty(symptoms)) {
+			return getCamelCaseSymtoms(symptoms);
+		}
+		return null;
 	}
-	
+	private List<String> getCamelCaseSymtoms(List<String> symptoms) {
+		List<String> camalCaseSymtoms = new ArrayList<>();
+		for (String symptom : symptoms) {
+			if (null != symptom && !StringUtils.isEmpty(symptom)) {
+				String lowecase = symptom.toLowerCase(); 
+				char[] charArray = lowecase.toCharArray();
+				boolean foundSpace = true;
+				for (int i = 0; i < charArray.length; i++) {
+					if (Character.isLetter(charArray[i])) {
+						if (foundSpace) {
+							charArray[i] = Character.toUpperCase(charArray[i]);
+							foundSpace = false;
+						}
+					} else {
+						foundSpace = true;
+					}
+				}
+				String message = String.valueOf(charArray);
+				camalCaseSymtoms.add(message);
+			}
+		}
+		return camalCaseSymtoms;
+	}
 	public String getQuestions(String symptom, int age, String gender) {
 		// TODO Auto-generated method stub
 		JsonObject questions = new JsonObject();
