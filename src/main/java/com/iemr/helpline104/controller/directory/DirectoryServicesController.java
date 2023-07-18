@@ -51,7 +51,7 @@ public class DirectoryServicesController {
 	private DirectoryServiceImpl directoryServiceImpl;
 
 	@CrossOrigin
-	@ApiOperation(value = "retrives directory search history", consumes = "application/json", produces = "application/json")
+	@ApiOperation(value = "Retrieve directory search history", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/getdirectorySearchHistory", method = RequestMethod.POST, headers = "Authorization")
 	public String getBenDirectoryHistory(
 			@ApiParam(value = "{\"beneficiaryRegID\":\"optional long\",  \"benCallID\":\" Optional long\"}") @RequestBody String request) {
@@ -62,7 +62,7 @@ public class DirectoryServicesController {
 			logger.info("getdirectorySearchHistory request " + directoryService.toString());
 
 			List<Directoryservice> searchHistory = directoryServiceImpl
-					.getDirectorySearchHistory(directoryService.getBeneficiaryRegID(),directoryService.getBenCallID());
+					.getDirectorySearchHistory(directoryService.getBeneficiaryRegID(), directoryService.getBenCallID());
 			output.setResponse(searchHistory.toString());
 			logger.info("getdirectorySearchHistory response: " + output);
 		} catch (Exception e) {
@@ -73,7 +73,7 @@ public class DirectoryServicesController {
 	}
 
 	@CrossOrigin
-	@ApiOperation(value = "stores directory serach history", consumes = "application/json", produces = "application/json")
+	@ApiOperation(value = "Store directory serach history", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/save/directorySearchHistory", method = RequestMethod.POST, headers = "Authorization")
 	public String directorySearchHistory(
 			@ApiParam(value = "[{\"beneficiaryRegID\":\"long\",\"benCallID\":\"long\",\"institutionID\":\"integer\",\"instituteDirectoryID\":\"integer\",\"instituteSubDirectoryID\":\"integer\","

@@ -41,34 +41,30 @@ import com.iemr.helpline104.utils.response.OutputResponse;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 
-@RequestMapping( value = "/beneficiary")
+@RequestMapping(value = "/beneficiary")
 @RestController
 public class FeedbackTypeController {
-	
+
 	InputMapper inputMapper = new InputMapper();
 	private Logger logger = LoggerFactory.getLogger(FeedbackTypeController.class);
-	
+
 	@Autowired
 	private FeedbackTypeServiceImpl feedbackTypeServiceImpl;
-	
+
 	@CrossOrigin
-	@ApiOperation(
-			value = "provides nature of complaints",
-			consumes = "application/json",
-			produces = "application/json")
+	@ApiOperation(value = "Provides nature of complaints", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/get/natureOfComplaintTypes", method = RequestMethod.POST, headers = "Authorization")
-	public String getNatureOfComplaintTypes(@ApiParam(
-			value = "{\"providerServiceMapID\":\"integer\",\"feedbackTypeID\":\"short\"}") @RequestBody String request) {
-		OutputResponse output= new OutputResponse();
+	public String getNatureOfComplaintTypes(
+			@ApiParam(value = "{\"providerServiceMapID\":\"integer\",\"feedbackTypeID\":\"short\"}") @RequestBody String request) {
+		OutputResponse output = new OutputResponse();
 		try {
-		M_FeedbackType m_feedbackType = inputMapper.gson().fromJson(request, M_FeedbackType.class);
-		logger.info("getNatureOfComplaintTypes request " + m_feedbackType.toString());
-		
-		
-			
-			List<M_FeedbackType> m_feedbackTypes = feedbackTypeServiceImpl.getNatureOfComplaintTypes(m_feedbackType.getProviderServiceMapID(),  m_feedbackType.getFeedbackTypeID());
-			
-			output.setResponse(m_feedbackTypes.toString());			
+			M_FeedbackType m_feedbackType = inputMapper.gson().fromJson(request, M_FeedbackType.class);
+			logger.info("getNatureOfComplaintTypes request " + m_feedbackType.toString());
+
+			List<M_FeedbackType> m_feedbackTypes = feedbackTypeServiceImpl.getNatureOfComplaintTypes(
+					m_feedbackType.getProviderServiceMapID(), m_feedbackType.getFeedbackTypeID());
+
+			output.setResponse(m_feedbackTypes.toString());
 		} catch (JSONException e) {
 			logger.error("getNatureOfComplaintTypes failed with error " + e.getMessage(), e);
 			output.setError(e);

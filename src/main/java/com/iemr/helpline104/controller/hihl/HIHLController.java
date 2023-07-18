@@ -48,7 +48,7 @@ public class HIHLController {
 	@Autowired
 	private HIHLMastersImpl hIHLMastersImpl;
 
-	@ApiOperation(value = "Master Data for 104 HIHL", consumes = "application/json", produces = "application/json")
+	@ApiOperation(value = "Master data for 104 HIHL", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/get/masters", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON)
 	public String getHihlMasters() {
 
@@ -62,7 +62,7 @@ public class HIHLController {
 		return response.toString();
 	}
 
-	@ApiOperation(value = "saveHihlCasesheet", consumes = "application/json", produces = "application/json")
+	@ApiOperation(value = "Save HIHL casesheet", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/save/casesheet", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON)
 	public String saveHihlCasesheet(@RequestBody String request) {
 
@@ -76,7 +76,7 @@ public class HIHLController {
 		return response.toString();
 	}
 
-	@ApiOperation(value = "get Hihl Casesheet History Info", consumes = "application/json", produces = "application/json")
+	@ApiOperation(value = "Get HIHL casesheet history info", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/getHihlCasesheetHistoryInfo/{benRegId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON)
 	public String getHihlCasesheetHistoryInfo(@PathVariable Long benRegId) {
 
@@ -89,7 +89,7 @@ public class HIHLController {
 		return response.toString();
 	}
 
-	@ApiOperation(value = "get Hihl Casesheet Data", consumes = "application/json", produces = "application/json")
+	@ApiOperation(value = "Get HIHL casesheet data", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/getHihlCasesheetData/{casesheetId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON)
 	public String getHihlCasesheetData(@PathVariable Long casesheetId) {
 

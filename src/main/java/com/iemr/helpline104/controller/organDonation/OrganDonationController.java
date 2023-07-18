@@ -41,6 +41,7 @@ import com.iemr.helpline104.service.organDonation.OrganDonationServiceImpl;
 import com.iemr.helpline104.utils.mapper.InputMapper;
 import com.iemr.helpline104.utils.response.OutputResponse;
 
+import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 
 @RequestMapping(value = "/beneficiary")
@@ -48,93 +49,96 @@ import io.swagger.annotations.ApiParam;
 public class OrganDonationController {
 	InputMapper inputMapper = new InputMapper();
 	private Logger logger = LoggerFactory.getLogger(OrganDonationController.class);
-	
+
 	@Autowired
 	private OrganDonationServiceImpl organDonationServiceImpl;
 
 	@CrossOrigin
+	@ApiOperation(value = "Save organ donation details", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/save/organDonationRequestDetails", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, headers = "Authorization")
 	public String saveOrganDonationDetails(@RequestBody String request) {
-		OutputResponse output= new OutputResponse();
-		try{
-		OrganDonations organDonations = inputMapper.gson().fromJson(request, OrganDonations.class);
-		logger.info("saveOrganDonationDetails request " + organDonations.toString());
-		
-		
+		OutputResponse output = new OutputResponse();
+		try {
+			OrganDonations organDonations = inputMapper.gson().fromJson(request, OrganDonations.class);
+			logger.info("saveOrganDonationDetails request " + organDonations.toString());
+
 			String organDonationResponse = organDonationServiceImpl.save(organDonations);
 			output.setResponse(organDonationResponse.toString());
-		} catch(Exception e){
+		} catch (Exception e) {
 			logger.error("saveOrganDonationDetails failed with error " + e.getMessage(), e);
 			output.setError(e);
 		}
 		return output.toString();
-	}	
-	
+	}
+
 	@CrossOrigin
+	@ApiOperation(value = "Update organ donation details", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/update/organDonationRequestDetails", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, headers = "Authorization")
 	public String updateOrganDonationDetails(@RequestBody String request) {
-		OutputResponse output= new OutputResponse();
-		try{
+		OutputResponse output = new OutputResponse();
+		try {
 			T_OrganDonation organDonations = inputMapper.gson().fromJson(request, T_OrganDonation.class);
-		    logger.info("updateOrganDonationDetails request " + organDonations.toString());
-		
-		
+			logger.info("updateOrganDonationDetails request " + organDonations.toString());
+
 			String organDonationResponse = organDonationServiceImpl.update(organDonations);
 			output.setResponse(organDonationResponse.toString());
-		} catch(Exception e){
+		} catch (Exception e) {
 			logger.error("updateOrganDonationDetails failed with error " + e.getMessage(), e);
 			output.setError(e);
 		}
 		return output.toString();
-	}	
-	
+	}
 
 	@CrossOrigin
+	@ApiOperation(value = "Save organ donation institute details", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/save/organDonationInstituteDetails", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, headers = "Authorization")
 	public String saveOrganDonationInstituteDetails(@RequestBody String request) {
-		OutputResponse output= new OutputResponse();
-		try{
+		OutputResponse output = new OutputResponse();
+		try {
 			T_OrganDonation organDonation = inputMapper.gson().fromJson(request, T_OrganDonation.class);
-		logger.info("saveOrganDonationInstituteDetails request " + organDonation.toString());
-		
-		
+			logger.info("saveOrganDonationInstituteDetails request " + organDonation.toString());
+
 			String organDonationResponse = organDonationServiceImpl.saveInstituteDetails(organDonation);
 			output.setResponse(organDonationResponse.toString());
-		} catch(Exception e){
+		} catch (Exception e) {
 			logger.error("saveOrganDonationInstituteDetails failed with error " + e.getMessage(), e);
 			output.setError(e);
 		}
 		return output.toString();
 	}
-	
+
 	@CrossOrigin
+	@ApiOperation(value = "Get organ donation details", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/get/organDonationRequestDetails", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, headers = "Authorization")
-	public String getOrganDonationDetails(@ApiParam(
-			value = "{\"beneficiaryRegID\":\"optional long\",   \"benCallID\":\" Optional long\",   \"requestID\":\" Optional string\"}") @RequestBody String request) {
-		OutputResponse output= new OutputResponse();
+	public String getOrganDonationDetails(
+			@ApiParam(value = "{\"beneficiaryRegID\":\"optional long\",   \"benCallID\":\" Optional long\",   \"requestID\":\" Optional string\"}") @RequestBody String request) {
+		OutputResponse output = new OutputResponse();
 		try {
-		T_OrganDonation t_organDonation = inputMapper.gson().fromJson(request, T_OrganDonation.class);
-		logger.info("getOrganDonationDetails request " + t_organDonation.toString());
-		
-		
-		List<T_OrganDonation> organDonationRequest = null;
-		
-			organDonationRequest = organDonationServiceImpl.getOrganDonationRequests(t_organDonation.getBeneficiaryRegID(), t_organDonation.getBenCallID(), t_organDonation.getRequestID());
+			T_OrganDonation t_organDonation = inputMapper.gson().fromJson(request, T_OrganDonation.class);
+			logger.info("getOrganDonationDetails request " + t_organDonation.toString());
+
+			List<T_OrganDonation> organDonationRequest = null;
+
+			organDonationRequest = organDonationServiceImpl.getOrganDonationRequests(
+					t_organDonation.getBeneficiaryRegID(), t_organDonation.getBenCallID(),
+					t_organDonation.getRequestID());
 			output.setResponse(organDonationRequest.toString());
-			logger.info("getOrganDonationDetails response size: " + ((organDonationRequest.size()>0) ? organDonationRequest.size() : "No Beneficiary Found"));
+			logger.info("getOrganDonationDetails response size: "
+					+ ((organDonationRequest.size() > 0) ? organDonationRequest.size() : "No Beneficiary Found"));
 		} catch (Exception e) {
 			logger.error("getOrganDonationDetails failed with error " + e.getMessage(), e);
 			output.setError(e);
 		}
-		
+
 		return output.toString();
 	}
-	
+
 	@CrossOrigin
+	@ApiOperation(value = "Get organ donation types", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/get/organDonationTypes", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, headers = "Authorization")
 	public String getOrganDonationTypes() {
 		logger.info("getOrganDonationTypes request ");
-		OutputResponse output= new OutputResponse();
+		OutputResponse output = new OutputResponse();
 		List<M_DonationType> organDonationTypes = null;
 		try {
 			organDonationTypes = organDonationServiceImpl.getDonationTypes();
@@ -146,12 +150,13 @@ public class OrganDonationController {
 		logger.info("getOrganDonationTypes response: " + output);
 		return output.toString();
 	}
-	
+
 	@CrossOrigin
+	@ApiOperation(value = "Get donatable organs", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/get/DonatableOrgans", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, headers = "Authorization")
 	public String getDonatableOrgans() {
 		logger.info("getDonatableOrgans request ");
-		OutputResponse output= new OutputResponse();
+		OutputResponse output = new OutputResponse();
 		List<M_DonatableOrgan> donatableOrgans = null;
 		try {
 			donatableOrgans = organDonationServiceImpl.getDonatableOrgans();
@@ -164,5 +169,5 @@ public class OrganDonationController {
 		logger.info("getDonatableOrgans response: " + output);
 		return output.toString();
 	}
-	
+
 }

@@ -49,6 +49,8 @@ import com.iemr.helpline104.data.users.M_UserServiceRoleMapping;
 import com.iemr.helpline104.service.users.IEMRAdminUserServiceImpl;
 import com.iemr.helpline104.utils.response.OutputResponse;
 
+import io.swagger.annotations.ApiOperation;
+
 @CrossOrigin
 @RequestMapping(value = "/user")
 @RestController
@@ -61,6 +63,7 @@ public class IEMRAdminController {
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "User authenticate", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = { "/userAuthenticate" }, method = {
 			org.springframework.web.bind.annotation.RequestMethod.POST }, produces = { "application/json" })
 	public String userAuthenticate(@RequestBody M_User m_User) {
@@ -102,6 +105,7 @@ public class IEMRAdminController {
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Forget password", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = { "/forgetPassword" }, method = {
 			org.springframework.web.bind.annotation.RequestMethod.POST }, produces = { "application/json" })
 	public String forgetPassword(@RequestBody M_User m_User) {
@@ -130,6 +134,7 @@ public class IEMRAdminController {
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Set forget password", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = { "/setForgetPassword" }, method = {
 			org.springframework.web.bind.annotation.RequestMethod.POST }, produces = { "application/json" })
 	public String setPassword(@RequestBody M_User m_user) {
@@ -152,6 +157,7 @@ public class IEMRAdminController {
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Change password", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = { "/changePassword" }, method = {
 			org.springframework.web.bind.annotation.RequestMethod.POST }, produces = { "application/json" })
 	public String changePassword(@RequestBody M_User m_User) {
@@ -175,6 +181,7 @@ public class IEMRAdminController {
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Save user security question answers", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/saveUserSecurityQuesAns", method = RequestMethod.POST, produces = "application/json")
 	public String saveUserSecurityQuesAns(@RequestBody Iterable<M_UserSecurityQMapping> m_UserSecurityQMapping) {
 		int responseData = 0;
@@ -196,31 +203,28 @@ public class IEMRAdminController {
 	 * @return security qtns
 	 */
 	@CrossOrigin()
+	@ApiOperation(value = "Get security quetions", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/getsecurityquetions", method = RequestMethod.GET)
 	public String getSecurityts() {
 		ArrayList<M_LoginSecurityQuestions> test = iemrAdminUserServiceImpl.getAllLoginSecurityQuestions();
 		return test.toString();
 	}
-	
+
 	@CrossOrigin()
+	@ApiOperation(value = "Get role wrap up time", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/role/{roleID}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON, headers = "Authorization")
 	public String getrolewrapuptime(@PathVariable("roleID") Integer roleID) {
-		
-		
+
 		OutputResponse response = new OutputResponse();
-		try
-		{
+		try {
 			M_Role test = iemrAdminUserServiceImpl.getrolewrapuptime(roleID);
-			if(test==null) {
+			if (test == null) {
 				throw new Exception("RoleID Not Found");
 			}
 			response.setResponse(test.toString());
-		} catch (Exception e)
-		{
+		} catch (Exception e) {
 			response.setError(e);
 		}
-//		logger.info("response is " + response.toStringWithSerialization());
 		return response.toString();
-//		return test.toString();
 	}
 }

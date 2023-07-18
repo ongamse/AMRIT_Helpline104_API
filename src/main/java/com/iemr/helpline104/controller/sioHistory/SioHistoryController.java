@@ -44,6 +44,8 @@ import com.iemr.helpline104.service.organDonation.OrganDonationServiceImpl;
 import com.iemr.helpline104.utils.mapper.InputMapper;
 import com.iemr.helpline104.utils.response.OutputResponse;
 
+import io.swagger.annotations.ApiOperation;
+
 /**
  * Controller class to get the Sio history data for a particular beneficiary
  *
@@ -69,6 +71,7 @@ public class SioHistoryController {
 	private FoodSafetyCopmlaintServiceImpl foodSafetyCopmlaintServiceImpl;
 
 	@CrossOrigin
+	@ApiOperation(value = "Get sio history", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/getSioHistory", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON, consumes = MediaType.APPLICATION_JSON, headers = "Authorization")
 	public String getSioHistory(@RequestBody String benificiary) {
 

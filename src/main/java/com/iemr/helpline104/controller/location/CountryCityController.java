@@ -36,50 +36,49 @@ import com.iemr.helpline104.controller.feedback.FeedbackController;
 import com.iemr.helpline104.service.location.CountryCityService;
 import com.iemr.helpline104.utils.response.OutputResponse;
 
-@RequestMapping(value =  "/countryCityController")
+import io.swagger.annotations.ApiOperation;
+
+@RequestMapping(value = "/countryCityController")
 @RestController
 public class CountryCityController {
 
 	@Autowired
 	private CountryCityService countryCityService;
 	private Logger logger = LoggerFactory.getLogger(FeedbackController.class);
+
 	@CrossOrigin
-	@RequestMapping(value = { "/getCountry" }, method = RequestMethod.GET, 
-							produces = MediaType.APPLICATION_JSON, headers = "Authorization")
-	public String getCountry() 
-	{
+	@ApiOperation(value = "Get country", consumes = "application/json", produces = "application/json")
+	@RequestMapping(value = {
+			"/getCountry" }, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON, headers = "Authorization")
+	public String getCountry() {
 		OutputResponse response = new OutputResponse();
 		try {
-		String data = countryCityService.getCountry();
-		response.setResponse(data);
-	} catch (Exception e) {
-		logger.error(e.getMessage());
-		response.setError(e);
+			String data = countryCityService.getCountry();
+			response.setResponse(data);
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			response.setError(e);
 
+		}
+
+		return response.toString();
 	}
-	/**
-	 * sending the response...
-	 */
-	return response.toString();
-	}
-	
+
 	@CrossOrigin
-	@RequestMapping(value = { "/getCities/{id}" }, method = RequestMethod.GET, 
-							produces = MediaType.APPLICATION_JSON, headers = "Authorization")
-	public String getCities(@PathVariable("id") Integer id) 
-	{
+	@ApiOperation(value = "Get cities", consumes = "application/json", produces = "application/json")
+	@RequestMapping(value = {
+			"/getCities/{id}" }, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON, headers = "Authorization")
+	public String getCities(@PathVariable("id") Integer id) {
 		OutputResponse response = new OutputResponse();
 		try {
-		String data = countryCityService.getCities(id);
-		response.setResponse(data);
-	} catch (Exception e) {
-		logger.error(e.getMessage());
-		response.setError(e);
+			String data = countryCityService.getCities(id);
+			response.setResponse(data);
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			response.setError(e);
 
-	}
-	/**
-	 * sending the response...
-	 */
-	return response.toString();
+		}
+
+		return response.toString();
 	}
 }

@@ -55,7 +55,7 @@ public class SnomedController {
 	}
 
 	@CrossOrigin
-	@ApiOperation(value = "retrives SnomedCT Record (Entire term case insensitive)", consumes = "application/json", produces = "application/json")
+	@ApiOperation(value = "Retrieve Snomed CT record", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/getSnomedCTRecord", method = RequestMethod.POST, headers = "Authorization")
 	public String getSnomedCTRecord(@ApiParam(value = "{\"term\":\"String\"}") @RequestBody String request) {
 		OutputResponse output = new OutputResponse();
@@ -68,19 +68,18 @@ public class SnomedController {
 			List<SCTDescription> sctdescriptions = snomedService.findSnomedCTRecordFromTerm(sctdescription.getTerm());
 
 			SCTDescription recentRecord = null;
-			
-			for (SCTDescription sct : sctdescriptions) {				
+
+			for (SCTDescription sct : sctdescriptions) {
 				recentRecord = sct;
-				//  recent & case insensitive id is 900000000000448009
-				if(sct.getCaseSignificanceID() == "900000000000448009")
-				break;
+				if (sct.getCaseSignificanceID() == "900000000000448009")
+					break;
 			}
 
-			if(recentRecord == null)
+			if (recentRecord == null)
 				output.setResponse("No Records Found");
 			else
-			output.setResponse(recentRecord.toString());
-			
+				output.setResponse(recentRecord.toString());
+
 			logger.info("ggetSnomedCTRecord response: " + output);
 		} catch (Exception e) {
 			logger.error("ggetSnomedCTRecord failed with error " + e.getMessage(), e);
@@ -90,7 +89,7 @@ public class SnomedController {
 	}
 
 	@CrossOrigin
-	@ApiOperation(value = "retrives SnomedCT Records", consumes = "application/json", produces = "application/json")
+	@ApiOperation(value = "Retrieves Snomed CT records", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/getSnomedCTRecords", method = RequestMethod.POST, headers = "Authorization")
 	public String getSnomedCTRecords(@ApiParam(value = "{\"term\":\"String\"}") @RequestBody String request) {
 		OutputResponse output = new OutputResponse();

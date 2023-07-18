@@ -47,59 +47,53 @@ public class BloodComponentController {
 
 	private InputMapper inputMapper = new InputMapper();
 	private Logger logger = LoggerFactory.getLogger(BloodComponentController.class);
-	
+
 	@Autowired
 	private BloodComponentServiceImpl bloodComponentServiceImpl;
+
 	@CrossOrigin
-	@ApiOperation(
-			value = "stores blood components master data",
-			consumes = "application/json",
-			produces = "application/json")
+	@ApiOperation(value = "Save blood component details", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/save/bloodComponentDetails", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, headers = "Authorization")
-	public String saveBloodComponentDetails(@ApiParam(
-			value = "{\"component\":\"String\",\"componentDesc\":\"String\",\"deleted\":\"boolean\",\"createdBy\":\"String\"}") @RequestBody String request) {
-		OutputResponse output= new OutputResponse(); 
+	public String saveBloodComponentDetails(
+			@ApiParam(value = "{\"component\":\"String\",\"componentDesc\":\"String\",\"deleted\":\"boolean\",\"createdBy\":\"String\"}") @RequestBody String request) {
+		OutputResponse output = new OutputResponse();
 		try {
-		M_Component m_component = inputMapper.gson().fromJson(request, M_Component.class);
-		logger.info("saveBloodComponentDetails request " + m_component.toString());
-		
-		
-		M_Component bloodComponent = bloodComponentServiceImpl.save(m_component);
-		output.setResponse(bloodComponent.toString());
-		logger.info("saveBloodComponentDetails response: " + output);
-        }catch (Exception e) {
+			M_Component m_component = inputMapper.gson().fromJson(request, M_Component.class);
+			logger.info("saveBloodComponentDetails request " + m_component.toString());
+
+			M_Component bloodComponent = bloodComponentServiceImpl.save(m_component);
+			output.setResponse(bloodComponent.toString());
+			logger.info("saveBloodComponentDetails response: " + output);
+		} catch (Exception e) {
 			logger.error("saveBloodComponentDetails failed with error " + e.getMessage(), e);
 			output.setError(e);
 		}
 		return output.toString();
 	}
-	
-	@CrossOrigin
-	@ApiOperation(
-			value = "provides particular component details",
-			consumes = "application/json",
-			produces = "application/json")
-	@RequestMapping(value = "/get/bloodComponentDetails", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, headers = "Authorization")
-	public String getBloodComponentDetails(@ApiParam(
-			value = "{\"componentID\":\"Integer\"}") @RequestBody String request) {
 
-		OutputResponse output= new OutputResponse();
+	@CrossOrigin
+	@ApiOperation(value = "Fetch blood component details", consumes = "application/json", produces = "application/json")
+	@RequestMapping(value = "/get/bloodComponentDetails", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, headers = "Authorization")
+	public String getBloodComponentDetails(
+			@ApiParam(value = "{\"componentID\":\"Integer\"}") @RequestBody String request) {
+
+		OutputResponse output = new OutputResponse();
 		try {
-		M_Component m_component = inputMapper.gson().fromJson(request, M_Component.class);
-		logger.info("getBloodComponentDetails request " + m_component.toString());
-		
-		
-		List<M_Component> bloodComponent = null;
-		
+			M_Component m_component = inputMapper.gson().fromJson(request, M_Component.class);
+			logger.info("getBloodComponentDetails request " + m_component.toString());
+
+			List<M_Component> bloodComponent = null;
+
 			bloodComponent = bloodComponentServiceImpl.getBloodComponents(m_component.getComponentID());
 			output.setResponse(bloodComponent.toString());
-			logger.info("getBloodComponentDetails response size: " + ((bloodComponent .size()>0) ? bloodComponent.size() : "No Beneficiary Found"));
+			logger.info("getBloodComponentDetails response size: "
+					+ ((bloodComponent.size() > 0) ? bloodComponent.size() : "No Beneficiary Found"));
 		} catch (Exception e) {
 			logger.error("getBloodComponentDetails failed with error " + e.getMessage(), e);
 			output.setError(e);
 		}
-		
+
 		return output.toString();
 	}
-	
+
 }

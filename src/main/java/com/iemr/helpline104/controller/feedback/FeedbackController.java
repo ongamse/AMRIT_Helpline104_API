@@ -42,6 +42,8 @@ import com.iemr.helpline104.service.feedback.FeedbackServiceImpl;
 import com.iemr.helpline104.utils.mapper.InputMapper;
 import com.iemr.helpline104.utils.response.OutputResponse;
 
+import io.swagger.annotations.ApiOperation;
+
 @RequestMapping(value = "/beneficiary")
 @RestController
 public class FeedbackController {
@@ -68,6 +70,7 @@ public class FeedbackController {
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Fetch feedback request", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/getfeedbacklist", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON, headers = "Authorization")
 	public String feedbackReuest(@RequestBody String request) {
 		OutputResponse response = new OutputResponse();
@@ -84,22 +87,7 @@ public class FeedbackController {
 	}
 
 	@CrossOrigin()
-	@RequestMapping(value = "/setfeedback", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON, headers = "Authorization")
-	@Deprecated
-	public String feedbackCreate(@RequestBody String request) {
-		OutputResponse response = new OutputResponse();
-		try {
-			FeedbackDetails feedbackDetails = inputMapper.gson().fromJson(request, FeedbackDetails.class);
-			FeedbackDetails savedDetails = feedbackService.createFeedback(feedbackDetails);
-			response.setResponse("success: " + savedDetails.toString());
-		} catch (Exception e) {
-			logger.error("", e);
-			response.setError(e);
-		}
-		return response.toString();
-	}
-
-	@CrossOrigin()
+	@ApiOperation(value = "Get feedback by post", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/getfeedback/{feedbackID}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON, headers = "Authorization")
 	public String getFeedbackByPost(@PathVariable("feedbackID") int feedbackID) {
 		OutputResponse response = new OutputResponse();
@@ -115,6 +103,7 @@ public class FeedbackController {
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Update feedback", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/updatefeedback", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON, headers = "Authorization")
 	public String updateFeedback(@RequestBody String feedbackDetailsOBJ) {
 		OutputResponse response = new OutputResponse();
@@ -136,25 +125,8 @@ public class FeedbackController {
 		return response.toString();
 	}
 
-	// @CrossOrigin()
-	// @RequestMapping(value = "/saveBenFeedback", method = RequestMethod.POST,
-	// produces = MediaType.APPLICATION_JSON)
-	// // public String saveFeedback(@RequestBody Iterable<FeedbackDetails>
-	// // feedbackDetails) {
-	// public String saveFeedback(@RequestBody String feedbackDetails) {
-	//
-	// OutputResponse response = new OutputResponse();
-	// try {
-	// String s = feedbackServiceImpl.saveFeedbackFromCustomer(feedbackDetails);
-	// response.setResponse(s);
-	// } catch (Exception e) {
-	// logger.error("", e);
-	// response.setError(e);
-	// }
-	// return response.toString();
-	// }
-
 	@CrossOrigin()
+	@ApiOperation(value = "Save beneficiary feedback", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/saveBenFeedback", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON, headers = "Authorization")
 	public String saveBenFeedback(@RequestBody String feedbackRequest, HttpServletRequest request) {
 		OutputResponse response = new OutputResponse();

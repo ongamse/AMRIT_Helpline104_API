@@ -36,10 +36,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-
 import com.iemr.helpline104.service.covidMaster.CovidMasterService;
 import com.iemr.helpline104.utils.response.OutputResponse;
-
 
 import io.swagger.annotations.ApiOperation;
 
@@ -48,13 +46,12 @@ import io.swagger.annotations.ApiOperation;
 @RequestMapping(value = "/master", headers = "Authorization")
 
 public class CovidMasterController {
-	
+
 	private Logger logger = LoggerFactory.getLogger(CovidMasterController.class);
 	@Autowired
 	private CovidMasterService covidMasterService;
-	
-	
-	@ApiOperation(value = "Master Data  for covid Patient", consumes = "application/json", produces = "application/json")
+
+	@ApiOperation(value = "Master data  for COVID patient", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = {
 			"/patient/covidDetails/{providerServiceMapID}" }, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON)
 	public String patientAppMasterData(@PathVariable("providerServiceMapID") Integer providerServiceMapID) {
@@ -65,9 +62,9 @@ public class CovidMasterController {
 		logger.info("Nurse master Data for beneficiary:" + response.toString());
 		return response.toString();
 	}
-	
+
 	@CrossOrigin
-	@ApiOperation(value = "Save Covid  data..", consumes = "application/json", produces = "application/json")
+	@ApiOperation(value = "Save COVID data", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = { "/save/covidScreeningData" }, method = { RequestMethod.POST })
 	public String saveBenCovidDoctorData(@RequestBody String requestObj,
 			@RequestHeader(value = "Authorization") String Authorization) {
