@@ -44,7 +44,7 @@ import com.iemr.helpline104.service.casesheet.H104BenHistoryServiceImpl;
 public class H104BenHistoryControllerTest {
 
 	@InjectMocks
-	H104BenHistoryController smpleBenHistoryController;
+	Helpline104BeneficiaryHistoryController smpleBenHistoryController;
 	
 	@Mock
 	H104BenHistoryServiceImpl smpleBenHistoryServiceImpl;

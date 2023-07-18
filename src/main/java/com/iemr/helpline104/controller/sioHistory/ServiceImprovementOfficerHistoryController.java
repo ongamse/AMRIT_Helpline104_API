@@ -52,10 +52,10 @@ import io.swagger.annotations.ApiOperation;
  */
 @RequestMapping(value = "/beneficiary")
 @RestController
-public class SioHistoryController {
+public class ServiceImprovementOfficerHistoryController {
 
 	InputMapper mapper = new InputMapper();
-	private Logger logger = LoggerFactory.getLogger(SioHistoryController.class);
+	private Logger logger = LoggerFactory.getLogger(ServiceImprovementOfficerHistoryController.class);
 
 	@Autowired
 	private BloodRequestServiceImpl bloodRequestServiceImpl;

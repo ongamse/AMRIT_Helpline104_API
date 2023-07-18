@@ -59,7 +59,7 @@ public class IMRMMRController {
 	private IMRMMRServiceImpl imrmmrService;
 
 	@CrossOrigin()
-	@ApiOperation(value = "Save IMRMMR", consumes = "application/json", produces = "application/json")
+	@ApiOperation(value = "Save IMR MMR", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/saveIMRMMR", headers = "Authorization", method = { RequestMethod.POST }, produces = {
 			"application/json" })
 	public String saveIMRMMR(@RequestBody String request,
@@ -128,7 +128,7 @@ public class IMRMMRController {
 	}
 
 	@CrossOrigin()
-	@ApiOperation(value = "Update imrmmr complaint", consumes = "application/json", produces = "application/json")
+	@ApiOperation(value = "Update IMR MMR complaint", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/update/ImrMmrComplaint", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON, headers = "Authorization")
 	public String updateImrMmrComplaint(@RequestBody String request) {
 		OutputResponse output = new OutputResponse();

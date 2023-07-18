@@ -38,7 +38,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.LongSerializationPolicy;
-import com.iemr.helpline104.controller.casesheet.H104BenHistoryController;
+import com.iemr.helpline104.controller.casesheet.Helpline104BeneficiaryHistoryController;
 import com.iemr.helpline104.data.cdss.SymptomsWrapper;
 import com.iemr.helpline104.service.cdss.CDSSServiceImpl;
 import com.iemr.helpline104.utils.response.OutputResponse;
@@ -47,10 +47,10 @@ import io.swagger.annotations.ApiOperation;
 
 @RequestMapping(value = "/CDSS")
 @RestController
-public class CDSSController {
+public class ClinicalDecisionSupportSystemController {
 
 	private CDSSServiceImpl cDSSServiceImpl;
-	private Logger logger = LoggerFactory.getLogger(CDSSController.class);
+	private Logger logger = LoggerFactory.getLogger(ClinicalDecisionSupportSystemController.class);
 
 	@Autowired
 	public void setcDSSService(CDSSServiceImpl cDSSServiceImpl) {

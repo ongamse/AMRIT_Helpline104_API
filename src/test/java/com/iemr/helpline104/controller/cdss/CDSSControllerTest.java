@@ -44,7 +44,7 @@ import com.iemr.helpline104.service.cdss.CDSSServiceImpl;
 public class CDSSControllerTest {
 
 	@InjectMocks
-	CDSSController cDSSController;
+	ClinicalDecisionSupportSystemController cDSSController;
 	
 	@Mock
 	CDSSServiceImpl cDSSServiceImpl;

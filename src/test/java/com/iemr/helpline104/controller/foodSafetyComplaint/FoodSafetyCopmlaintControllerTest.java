@@ -47,7 +47,7 @@ import com.iemr.helpline104.service.foodSafetyCopmlaint.FoodSafetyCopmlaintServi
 public class FoodSafetyCopmlaintControllerTest {
 
 	@InjectMocks
-	FoodSafetyCopmlaintController foodSafetyCopmlaintController;
+	FoodSafetyComplaintController foodSafetyCopmlaintController;
 
 	@Mock
 	FoodSafetyCopmlaintServiceImpl foodSafetyCopmlaintServiceImpl;

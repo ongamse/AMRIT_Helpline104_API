@@ -45,9 +45,9 @@ import io.swagger.annotations.ApiParam;
 
 @RequestMapping(value = "/beneficiary")
 @RestController
-public class FoodSafetyCopmlaintController {
+public class FoodSafetyComplaintController {
 	InputMapper inputMapper = new InputMapper();
-	private Logger logger = LoggerFactory.getLogger(FoodSafetyCopmlaintController.class);
+	private Logger logger = LoggerFactory.getLogger(FoodSafetyComplaintController.class);
 
 	@Autowired
 	private FoodSafetyCopmlaintServiceImpl foodSafetyCopmlaintServiceImpl;
