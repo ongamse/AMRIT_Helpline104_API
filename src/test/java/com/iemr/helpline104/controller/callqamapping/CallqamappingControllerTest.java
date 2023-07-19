@@ -45,7 +45,7 @@ public class CallqamappingControllerTest {
 
 	
 	@InjectMocks
-	CallQaMappingController callqamappingController;
+	CallQAMappingController callqamappingController;
 	
 	@Mock
 	CallqamappingServiceImpl callqamappingServiceImpl;

@@ -45,10 +45,10 @@ import io.swagger.annotations.ApiParam;
 
 @RequestMapping(value = "/beneficiary")
 @RestController
-public class CallQaMappingController {
+public class CallQAMappingController {
 
 	InputMapper inputMapper = new InputMapper();
-	private Logger logger = LoggerFactory.getLogger(CallQaMappingController.class);
+	private Logger logger = LoggerFactory.getLogger(CallQAMappingController.class);
 
 	@Autowired
 	public CallqamappingService callqamappingService;
