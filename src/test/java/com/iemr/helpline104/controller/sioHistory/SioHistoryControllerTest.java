@@ -48,7 +48,7 @@ import com.iemr.helpline104.service.organDonation.OrganDonationServiceImpl;
 public class SioHistoryControllerTest {
 
 	@InjectMocks
-	SioHistoryController sioHistoryController;
+	ServiceImprovementOfficerHistoryController sioHistoryController;
 	
 	@Mock
 	BloodRequestServiceImpl bloodRequestServiceImpl;

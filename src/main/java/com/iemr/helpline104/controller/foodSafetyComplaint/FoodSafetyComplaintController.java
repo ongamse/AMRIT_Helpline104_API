@@ -45,15 +45,15 @@ import io.swagger.annotations.ApiParam;
 
 @RequestMapping(value = "/beneficiary")
 @RestController
-public class FoodSafetyCopmlaintController {
+public class FoodSafetyComplaintController {
 	InputMapper inputMapper = new InputMapper();
-	private Logger logger = LoggerFactory.getLogger(FoodSafetyCopmlaintController.class);
+	private Logger logger = LoggerFactory.getLogger(FoodSafetyComplaintController.class);
 
 	@Autowired
 	private FoodSafetyCopmlaintServiceImpl foodSafetyCopmlaintServiceImpl;
 
 	@CrossOrigin
-	@ApiOperation(value = "stores food safety complaint details", consumes = "application/json", produces = "application/json")
+	@ApiOperation(value = "Stores food safety complaint details", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/save/foodComplaintDetails", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, headers = "Authorization")
 	public String saveFoodComplaintDetails(
 			@ApiParam(value = "{\"typeOfRequest\":\"string\",\"isDiarrhea\":\"byte\",\"isVomiting\":\"byte\",\"isAbdominalPain\":\"byte\",\"isChillsOrRigors\":\"byte\","
@@ -81,7 +81,7 @@ public class FoodSafetyCopmlaintController {
 	}
 
 	@CrossOrigin
-	@ApiOperation(value = "provides food safety complaints history", consumes = "application/json", produces = "application/json")
+	@ApiOperation(value = "Provides food safety complaints history", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/get/foodComplaintDetails", method = RequestMethod.POST, headers = "Authorization")
 	public String getFoodComplaintDetails(
 			@ApiParam(value = "{\"beneficiaryRegID\":\"optional long\",   \"benCallID\":\" Optional long\",   \"requestID\":\" Optional string\"}") @RequestBody String request) {
@@ -97,12 +97,13 @@ public class FoodSafetyCopmlaintController {
 					t_foodSafetyCopmlaint.getBeneficiaryRegID(), t_foodSafetyCopmlaint.getBenCallID(),
 					t_foodSafetyCopmlaint.getRequestID(), t_foodSafetyCopmlaint.getPhoneNo());
 			output.setResponse(foodComplaint.toString());
-			logger.info("getFoodComplaintDetails response size: " + ((foodComplaint.size()>0) ? foodComplaint.size() : "No Beneficiary Found"));
+			logger.info("getFoodComplaintDetails response size: "
+					+ ((foodComplaint.size() > 0) ? foodComplaint.size() : "No Beneficiary Found"));
 		} catch (Exception e) {
 			logger.error("getFoodComplaintDetails failed with error " + e.getMessage(), e);
 			output.setError(e);
 		}
-		
+
 		return output.toString();
 	}
 

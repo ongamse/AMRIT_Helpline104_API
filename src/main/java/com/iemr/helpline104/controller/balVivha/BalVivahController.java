@@ -40,6 +40,8 @@ import com.iemr.helpline104.service.balVivah.BalVivahComplaintService;
 import com.iemr.helpline104.utils.mapper.InputMapper;
 import com.iemr.helpline104.utils.response.OutputResponse;
 
+import io.swagger.annotations.ApiOperation;
+
 @RequestMapping(value = "/beneficiary")
 @RestController
 public class BalVivahController {
@@ -53,21 +55,14 @@ public class BalVivahController {
 	private BalVivahComplaintImpl balVivahComplaintImpl;
 
 	@CrossOrigin()
+	@ApiOperation(value = "Save bal vivah complaint", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/saveBalVivahComplaint", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON, headers = "Authorization")
 	public String balVivahComplaint(@RequestBody String request, HttpServletRequest httpRequest) {
 		OutputResponse output = new OutputResponse();
 		try {
 			BalVivahComplaint balVivahComplaint = InputMapper.gson().fromJson(request, BalVivahComplaint.class);
-
-			// BalVivahComplaint vivahComplaint;
 			String vivahComplaint = balVivahComplaintImpl.save(balVivahComplaint, httpRequest);
 			output.setResponse(vivahComplaint);
-
-//			String response = balVivahComplaintService.saveBalVivahComplaint(httpRequest);
-
-//			if(response != null) {
-//				output.setResponse(response);
-//			}
 		} catch (Exception e) {
 			output.setError(e);
 		}
@@ -75,6 +70,7 @@ public class BalVivahController {
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Get bal vivah list", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/getBalVivahList", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON, headers = "Authorization")
 	public String feedbackReuest(@RequestBody String request) {
 		OutputResponse response = new OutputResponse();
@@ -93,6 +89,7 @@ public class BalVivahController {
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Update bal vivah complaint", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/update/BalVivahComplaint", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON, headers = "Authorization")
 	public String updateBalVivahComplaint(@RequestBody String request) {
 		OutputResponse output = new OutputResponse();

@@ -47,7 +47,7 @@ import com.google.gson.JsonParser;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.LongSerializationPolicy;
-import com.iemr.helpline104.controller.cdss.CDSSController;
+import com.iemr.helpline104.controller.cdss.ClinicalDecisionSupportSystemController;
 import com.iemr.helpline104.data.cdss.Symptoms;
 import com.iemr.helpline104.data.cdss.SymptomsWrapper;
 import com.iemr.helpline104.repository.cdss.DBConnect;
@@ -59,7 +59,7 @@ import com.iemr.helpline104.repository.cdss.DBConnect;
 public class CDSSServiceImpl implements CDSSService {
 
 	private DBConnect dbConnect;
-	private Logger logger = LoggerFactory.getLogger(CDSSController.class);
+	private Logger logger = LoggerFactory.getLogger(ClinicalDecisionSupportSystemController.class);
 	@Autowired
 	public void setDbConnect(DBConnect dbConnect) {
 		this.dbConnect = dbConnect;

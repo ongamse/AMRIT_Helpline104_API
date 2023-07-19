@@ -37,20 +37,23 @@ import com.iemr.helpline104.service.healthCareWorkerType.HealthCareWorkerService
 import com.iemr.helpline104.utils.mapper.InputMapper;
 import com.iemr.helpline104.utils.response.OutputResponse;
 
+import io.swagger.annotations.ApiOperation;
+
 @RequestMapping(value = "/beneficiary")
 @RestController
 public class HealthCareWorkerTypeController {
 	InputMapper inputMapper = new InputMapper();
 	private Logger logger = LoggerFactory.getLogger(HealthCareWorkerTypeController.class);
-	
+
 	@Autowired
 	private HealthCareWorkerServiceImpl healthCareWorkerServiceImpl;
-	
+
 	@CrossOrigin
+	@ApiOperation(value = "Get health care worker types", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/get/healthCareWorkerTypes", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, headers = "Authorization")
 	public String getHealthCareWorkerTypes() {
 		logger.info("getHealthCareWorkerTypes request ");
-		OutputResponse output= new OutputResponse();
+		OutputResponse output = new OutputResponse();
 
 		List<M_HealthCareWorker> i_BeneficiaryTypes = healthCareWorkerServiceImpl.getHealthCareWorkerTypes();
 		output.setResponse(i_BeneficiaryTypes.toString());

@@ -53,7 +53,7 @@ public class EpidemicOutbreakController {
 	private EpidemicOutbreakServiceImpl epidemicOutbreakServiceImpl;
 
 	@CrossOrigin
-	@ApiOperation(value = "stores epidemic outbreak complaint", consumes = "application/json", produces = "application/json")
+	@ApiOperation(value = "Store epidemic outbreak complaint", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/save/epidemicOutbreakComplaint", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, headers = "Authorization")
 	public String saveEpidemicOutbreakComplaint(
 			@ApiParam(value = "{\"beneficiaryRegID\":\"long\",\"natureOfComplaint\":\"string\",\"totalPeopleAffected\":\"integer\",\"affectedDistrictID\":\"integer\","
@@ -76,7 +76,7 @@ public class EpidemicOutbreakController {
 	}
 
 	@CrossOrigin
-	@ApiOperation(value = "provides epidemic outbreak complaints raised", consumes = "application/json", produces = "application/json")
+	@ApiOperation(value = "Fetch epidemic outbreak complaints", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/get/epidemicOutbreakComplaint", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, headers = "Authorization")
 	public String getEpidemicOutbreakComplaint(
 			@ApiParam(value = "{\"beneficiaryRegID\":\"optional long\",  \"benCallID\":\" Optional long\",  \"requestID\":\" Optional string\"}") @RequestBody String request) {
@@ -91,17 +91,19 @@ public class EpidemicOutbreakController {
 					t_epidemicOutbreak.getBeneficiaryRegID(), t_epidemicOutbreak.getBenCallID(),
 					t_epidemicOutbreak.getRequestID(), t_epidemicOutbreak.getPhoneNum());
 			output.setResponse(epidemicOutbreakComplaint.toString());
-			logger.info("getEpidemicOutbreakComplaint response size: " + ((epidemicOutbreakComplaint.size()>0) ? epidemicOutbreakComplaint.size() : "No Beneficiary Found"));
+			logger.info("getEpidemicOutbreakComplaint response size: "
+					+ ((epidemicOutbreakComplaint.size() > 0) ? epidemicOutbreakComplaint.size()
+							: "No Beneficiary Found"));
 		} catch (Exception e) {
 			logger.error("getEpidemicOutbreakComplaint failed with error " + e.getMessage(), e);
 			output.setError(e);
 		}
-		
+
 		return output.toString();
 	}
 
 	@CrossOrigin
-	@ApiOperation(value = "update epidemic outbreak complaint", consumes = "application/json", produces = "application/json")
+	@ApiOperation(value = "Update epidemic outbreak complaint", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/update/epidemicOutbreakComplaint", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, headers = "Authorization")
 	public String updateEpidemicOutbreakComplaint(
 			@ApiParam(value = "{\"natureOfComplaint\":\"string\",\"totalPeopleAffected\":\"integer\",\"affectedDistrictID\":\"integer\","

@@ -38,64 +38,35 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.LongSerializationPolicy;
-import com.iemr.helpline104.controller.casesheet.H104BenHistoryController;
+import com.iemr.helpline104.controller.casesheet.Helpline104BeneficiaryHistoryController;
 import com.iemr.helpline104.data.cdss.SymptomsWrapper;
 import com.iemr.helpline104.service.cdss.CDSSServiceImpl;
 import com.iemr.helpline104.utils.response.OutputResponse;
 
+import io.swagger.annotations.ApiOperation;
+
 @RequestMapping(value = "/CDSS")
 @RestController
-public class CDSSController {
+public class ClinicalDecisionSupportSystemController {
 
 	private CDSSServiceImpl cDSSServiceImpl;
-	private Logger logger = LoggerFactory.getLogger(CDSSController.class);
+	private Logger logger = LoggerFactory.getLogger(ClinicalDecisionSupportSystemController.class);
 
 	@Autowired
 	public void setcDSSService(CDSSServiceImpl cDSSServiceImpl) {
 		this.cDSSServiceImpl = cDSSServiceImpl;
 	}
 
-	@Deprecated
 	@CrossOrigin()
-	@RequestMapping(value = "/Symptoms", method = RequestMethod.GET, produces = "application/json", headers = "Authorization")
-	public String getSymptoms() {
-		OutputResponse output = new OutputResponse();
-		try {
-			String sympReturn;
-			// System.out.println(cDSSServiceImpl);
-			List<String> symptoms = cDSSServiceImpl.getSymptoms();
-			// System.out.println(symptoms);
-			// System.out.println(symptoms);
-			Gson gson = new GsonBuilder().setLongSerializationPolicy(LongSerializationPolicy.STRING).setPrettyPrinting().create();
-			if (symptoms != null && symptoms.size() > 0) {
-				sympReturn = gson.toJson(symptoms);
-			} else {
-				sympReturn = "{\"Msg\":\"No Symptoms Found\"}";
-			}
-
-			output.setResponse(sympReturn);
-
-		} catch (Exception e) {
-			logger.error("getSymptoms failed with error " + e.getMessage(), e);
-			output.setError(e);
-		}
-
-		// return sympReturn;
-		return output.toString();
-
-	}
-
-	@CrossOrigin()
+	@ApiOperation(value = "Get symptoms", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/Symptoms", method = RequestMethod.POST, produces = "application/json", headers = "Authorization")
 	public String getSymptomsPost(@RequestBody SymptomsWrapper symptomsDetails) {
 		OutputResponse output = new OutputResponse();
 		try {
 			String sympReturn;
-			// System.out.println(cDSSServiceImpl);
 			List<String> symptoms = cDSSServiceImpl.getSymptoms(symptomsDetails);
-			// System.out.println(symptoms);
-			// System.out.println(symptoms);
-			Gson gson = new GsonBuilder().setLongSerializationPolicy(LongSerializationPolicy.STRING).setPrettyPrinting().create();
+			Gson gson = new GsonBuilder().setLongSerializationPolicy(LongSerializationPolicy.STRING).setPrettyPrinting()
+					.create();
 			if (symptoms != null && symptoms.size() > 0) {
 				sympReturn = gson.toJson(symptoms);
 			} else {
@@ -109,11 +80,12 @@ public class CDSSController {
 			output.setError(e);
 		}
 
-		// return sympReturn;
 		return output.toString();
 
 	}
+
 	@CrossOrigin()
+	@ApiOperation(value = "Get questions by symptom, age and gender", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/getQuestions", method = RequestMethod.POST, produces = "application/json", headers = "Authorization")
 	public String getQuestion(@RequestBody SymptomsWrapper symptomsDetails) {
 		OutputResponse output = new OutputResponse();
@@ -134,12 +106,12 @@ public class CDSSController {
 			output.setError(e);
 		}
 
-		// return questions;
 		return output.toString();
 
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Get result based on compliant id", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/getResult", method = RequestMethod.POST, produces = "application/json", headers = "Authorization")
 	public String getResult(@RequestBody String userAnswer) {
 		OutputResponse output = new OutputResponse();
@@ -154,20 +126,18 @@ public class CDSSController {
 
 			String result = cDSSServiceImpl.getResult(complaintId, selected);
 			output.setResponse(result);
-			// System.out.println(symptoms);
-			// System.out.println(questions);
 
 		} catch (Exception e) {
 			logger.error("getResult failed with error " + e.getMessage(), e);
 			output.setError(e);
 		}
 
-		// return result;
 		return output.toString();
 
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Save symptom", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/saveSymptom", method = RequestMethod.POST, produces = "application/json", headers = "Authorization")
 	public String saveSymptom(@RequestBody String inputData) {
 		OutputResponse output = new OutputResponse();
@@ -179,7 +149,6 @@ public class CDSSController {
 			output.setError(e);
 		}
 
-		// return result;
 		return output.toString();
 
 	}

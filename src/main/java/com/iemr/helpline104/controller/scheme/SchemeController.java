@@ -47,28 +47,27 @@ import io.swagger.annotations.ApiParam;
 public class SchemeController {
 	InputMapper inputMapper = new InputMapper();
 	private Logger logger = LoggerFactory.getLogger(SchemeController.class);
-	
+
 	@Autowired
 	private SchemeServiceImpl schemeServiceImpl;
-	
+
 	InputMapper mapper = new InputMapper();
-	
+
 	@CrossOrigin
+	@ApiOperation(value = "Save scheme search history", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/save/schemeSearchHistory", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, headers = "Authorization")
 	public String saveSchemeSearchHistory(
 			@ApiParam(value = "[{\"beneficiaryRegID\":\"long\",\"benCallID\":\"long\",\"schemeID\":\"integer\","
 					+ "\"providerServiceMapID\":\"integer\",\"remarks\":\"string\",\"createdBy\":\"string\"}]") @RequestBody String request) {
-		OutputResponse output= new OutputResponse();
+		OutputResponse output = new OutputResponse();
 		try {
-		T_Schemeservice[] schemeHistory = mapper.gson().fromJson(request, T_Schemeservice[].class);
-		logger.info("saveSchemeSearchHistory request " + Arrays.toString(schemeHistory));	
-		
-		
-		String searchhistory = schemeServiceImpl.saveSchemeSearchHistory(schemeHistory);
-			
-	    output.setResponse(searchhistory);
-			
-					
+			T_Schemeservice[] schemeHistory = mapper.gson().fromJson(request, T_Schemeservice[].class);
+			logger.info("saveSchemeSearchHistory request " + Arrays.toString(schemeHistory));
+
+			String searchhistory = schemeServiceImpl.saveSchemeSearchHistory(schemeHistory);
+
+			output.setResponse(searchhistory);
+
 		} catch (Exception e) {
 			logger.error("saveSchemeSearchHistory failed with error " + e.getMessage(), e);
 			output.setError(e);
@@ -76,9 +75,9 @@ public class SchemeController {
 		logger.info("saveSchemeSearchHistory response: " + output);
 		return output.toString();
 	}
-	
+
 	@CrossOrigin
-	@ApiOperation(value = "retrives scheme search history", consumes = "application/json", produces = "application/json")
+	@ApiOperation(value = "Retrieve scheme search history", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/getSchemeSearchHistory", method = RequestMethod.POST, headers = "Authorization")
 	public String getBenSchemeHistory(
 			@ApiParam(value = "{\"beneficiaryRegID\":\"optional long\",  \"benCallID\":\" Optional long\"}") @RequestBody String request) {
@@ -89,7 +88,7 @@ public class SchemeController {
 			logger.info("getSchemeSearchHistory request " + t_schemeservice.toString());
 
 			List<T_Schemeservice> searchHistory = schemeServiceImpl
-					.getSchemeSearchHistory(t_schemeservice.getBeneficiaryRegID(),t_schemeservice.getBenCallID());
+					.getSchemeSearchHistory(t_schemeservice.getBeneficiaryRegID(), t_schemeservice.getBenCallID());
 			output.setResponse(searchHistory.toString());
 			logger.info("getSchemeSearchHistory response: " + output);
 		} catch (Exception e) {

@@ -26,13 +26,11 @@ import java.util.Objects;
 
 import javax.ws.rs.core.MediaType;
 
-import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -89,37 +87,9 @@ public class BeneficiarycallController {
 		logger.info("startCall response: " + output);
 		return output.toString();
 	}
-    /*
-	@CrossOrigin()
-	@ApiOperation(value = "Retrieves beneficiary details by provided callerId", consumes = "application/json", produces = "application/json")
-	@RequestMapping(value = "get/beneficiaryByCallID", method = RequestMethod.POST, headers = "Authorization")
-	private String findBeneficiaryByCallID(
-			@ApiParam(value = "{\"callID\":\"long\", \"pageNo\":\"integer\", \"rowsPerPage\":\"integer\"}") @RequestBody String beneficiaryCall) {
-		logger.info("findBeneficiaryByCallID request " + beneficiaryCall.toString());
-		OutputResponse output = new OutputResponse();
-		List<BeneficiaryCall> startedCall = null;
-		try {
-			JSONObject requestObject = new JSONObject(beneficiaryCall);
-			String benCallID = requestObject.getString("callID");
-			int pageNumber = requestObject.has("pageNo") ? (requestObject.getInt("pageNo") - 1) : 0;
-			int rows = requestObject.has("rowsPerPage") ? requestObject.getInt("rowsPerPage") : 1000;
-
-			startedCall = beneficiaryCallService.findBeneficiaryByCallID(benCallID, pageNumber, rows);
-			if (startedCall.size() > 0) {
-				output.setResponse(startedCall.get(startedCall.size()-1).toString());
-			} else {
-				output.setResponse(startedCall.toString());
-			}
-		} catch (Exception e) {
-			logger.error("findBeneficiaryByCallID failed with error " + e.getMessage(), e);
-			output.setError(e);
-		}
-		logger.info("findBeneficiaryByCallID response: " + output);
-		return output.toString();
-	} */
 
 	@CrossOrigin()
-	@ApiOperation(value = "Update beneficiaryRegId to the callerId", consumes = "application/json", produces = "application/json")
+	@ApiOperation(value = "Update beneficiary reg id to the caller id", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "update/beneficiaryCallID", method = RequestMethod.POST, headers = "Authorization")
 	public String updateBeneficiaryIDInCall(
 			@ApiParam(value = "{\"callID\":\"integer\", \"beneficiaryRegID\":\"long\"}") @RequestBody String beneficiaryCall) {
@@ -163,6 +133,7 @@ public class BeneficiarycallController {
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Set service history", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "set/callHistory", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON, headers = "Authorization")
 	public String setServiceHistory(@RequestBody String request) {
 		OutputResponse response = new OutputResponse();
@@ -177,26 +148,4 @@ public class BeneficiarycallController {
 		}
 		return response.toString();
 	}
-	
-	//Created on 27/10/2020 for getting logs of Calls that get closed automatically while caller is on live call
-	@Deprecated
-    @CrossOrigin
-    @ApiOperation(value = "Save Call Disconnected Data..", consumes = "application/json", produces = "application/json")
-    @RequestMapping(value = { "/save/callDisconnectedData" }, method = { RequestMethod.POST })
-    public String saveBenCovidDoctorData(@RequestBody String requestObj,
-            @RequestHeader(value = "Authorization") String Authorization) {
-        OutputResponse response = new OutputResponse();
-        try {
-            logger.info("Request object for Call Disconnected data :" + requestObj);
-            String s = servicesHistoryService.saveCallDisconnectedData(requestObj);
-            response.setResponse(s);
-
-        } catch (Exception e) {
-            logger.error("Error while saving Call Disconnected data :" + e);
-            response.setError(5000, "Unable to save data. " + e.getMessage());
-        }
-        
-        return response.toString();
-    }
-
 }
