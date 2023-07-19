@@ -45,7 +45,7 @@ import com.iemr.helpline104.utils.exception.IEMRException;
 public class BeneficiarycallControllerTest {
 
 	@InjectMocks
-	BeneficiarycallController beneficiarycallController;
+	BeneficiaryCallController beneficiarycallController;
 	
 	@Mock
 	ServicesHistoryService servicesHistoryService;

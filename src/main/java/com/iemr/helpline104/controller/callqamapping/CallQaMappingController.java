@@ -35,6 +35,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.iemr.helpline104.data.callqamapping.CallqaMappings;
 import com.iemr.helpline104.data.callqamapping.M_104callqamapping;
+import com.iemr.helpline104.service.callqamapping.CallqamappingService;
 import com.iemr.helpline104.service.callqamapping.CallqamappingServiceImpl;
 import com.iemr.helpline104.utils.mapper.InputMapper;
 import com.iemr.helpline104.utils.response.OutputResponse;
@@ -44,13 +45,13 @@ import io.swagger.annotations.ApiParam;
 
 @RequestMapping(value = "/beneficiary")
 @RestController
-public class CallqamappingController {
+public class CallQaMappingController {
 
 	InputMapper inputMapper = new InputMapper();
-	private Logger logger = LoggerFactory.getLogger(CallqamappingController.class);
+	private Logger logger = LoggerFactory.getLogger(CallQaMappingController.class);
 
 	@Autowired
-	public CallqamappingServiceImpl callqamappingServiceImpl;
+	public CallqamappingService callqamappingService;
 
 	@CrossOrigin
 	@ApiOperation(value = "Save call qa mapping", consumes = "application/json", produces = "application/json")
@@ -63,7 +64,7 @@ public class CallqamappingController {
 
 			List<M_104callqamapping> callqamapping = null;
 
-			callqamapping = callqamappingServiceImpl.save(callqaMappings);
+			callqamapping = callqamappingService.save(callqaMappings);
 			output.setResponse(callqamapping.toString());
 		} catch (Exception e) {
 			logger.error("saveCallqamapping failed with error " + e.getMessage(), e);
@@ -85,7 +86,7 @@ public class CallqamappingController {
 
 			List<M_104callqamapping> cdiqaMappings = null;
 
-			cdiqaMappings = callqamappingServiceImpl.getCDIQuestionScores(m_104callqamapping);
+			cdiqaMappings = callqamappingService.getCDIQuestionScores(m_104callqamapping);
 
 			output.setResponse(cdiqaMappings.toString());
 			logger.info("CDIqamapping response size: "

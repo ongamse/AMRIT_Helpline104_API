@@ -34,6 +34,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.iemr.helpline104.data.bloodComponent.M_Component;
+import com.iemr.helpline104.service.bloodComponent.BloodComponentService;
 import com.iemr.helpline104.service.bloodComponent.BloodComponentServiceImpl;
 import com.iemr.helpline104.utils.mapper.InputMapper;
 import com.iemr.helpline104.utils.response.OutputResponse;
@@ -49,7 +50,7 @@ public class BloodComponentController {
 	private Logger logger = LoggerFactory.getLogger(BloodComponentController.class);
 
 	@Autowired
-	private BloodComponentServiceImpl bloodComponentServiceImpl;
+	private BloodComponentService bloodComponentService;
 
 	@CrossOrigin
 	@ApiOperation(value = "Save blood component details", consumes = "application/json", produces = "application/json")
@@ -61,7 +62,7 @@ public class BloodComponentController {
 			M_Component m_component = inputMapper.gson().fromJson(request, M_Component.class);
 			logger.info("saveBloodComponentDetails request " + m_component.toString());
 
-			M_Component bloodComponent = bloodComponentServiceImpl.save(m_component);
+			M_Component bloodComponent = bloodComponentService.save(m_component);
 			output.setResponse(bloodComponent.toString());
 			logger.info("saveBloodComponentDetails response: " + output);
 		} catch (Exception e) {
@@ -84,7 +85,7 @@ public class BloodComponentController {
 
 			List<M_Component> bloodComponent = null;
 
-			bloodComponent = bloodComponentServiceImpl.getBloodComponents(m_component.getComponentID());
+			bloodComponent = bloodComponentService.getBloodComponents(m_component.getComponentID());
 			output.setResponse(bloodComponent.toString());
 			logger.info("getBloodComponentDetails response size: "
 					+ ((bloodComponent.size() > 0) ? bloodComponent.size() : "No Beneficiary Found"));
