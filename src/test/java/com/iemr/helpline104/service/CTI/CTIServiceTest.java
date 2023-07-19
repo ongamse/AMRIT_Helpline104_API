@@ -30,7 +30,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 public class CTIServiceTest {
 
 	@InjectMocks
-	CTIService cTIService;
+	ComputerTelephonyIntegrationService cTIService;
 
 	@Test
 	public void loginAgentTest()
