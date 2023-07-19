@@ -41,7 +41,7 @@ import com.iemr.helpline104.service.casesheet.H104BenHistoryServiceImpl;
 
 @RunWith(MockitoJUnitRunner.class)
 
-public class H104BenHistoryControllerTest {
+public class Helpline104BeneficiaryHistoryControllerTest {
 
 	@InjectMocks
 	Helpline104BeneficiaryHistoryController smpleBenHistoryController;

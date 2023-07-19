@@ -45,7 +45,7 @@ import com.iemr.helpline104.service.foodSafetyCopmlaint.FoodSafetyCopmlaintServi
 import com.iemr.helpline104.service.organDonation.OrganDonationServiceImpl;
 
 @RunWith(MockitoJUnitRunner.class)
-public class SioHistoryControllerTest {
+public class ServiceImprovementOfficerHistoryControllerTest {
 
 	@InjectMocks
 	ServiceImprovementOfficerHistoryController sioHistoryController;
