@@ -41,11 +41,11 @@ import com.iemr.helpline104.data.callqamapping.M_104callqamapping;
 import com.iemr.helpline104.service.callqamapping.CallqamappingServiceImpl;
 
 @RunWith(MockitoJUnitRunner.class)
-public class CallqamappingControllerTest {
+public class CallQAMappingControllerTest {
 
 	
 	@InjectMocks
-	CallqamappingController callqamappingController;
+	CallQAMappingController callqamappingController;
 	
 	@Mock
 	CallqamappingServiceImpl callqamappingServiceImpl;

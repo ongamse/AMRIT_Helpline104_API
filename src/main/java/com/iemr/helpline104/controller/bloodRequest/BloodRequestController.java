@@ -37,7 +37,9 @@ import com.iemr.helpline104.data.bloodComponentType.M_BloodGroup;
 import com.iemr.helpline104.data.bloodComponentType.M_ComponentType;
 import com.iemr.helpline104.data.bloodRequest.BloodBank;
 import com.iemr.helpline104.data.bloodRequest.T_BloodRequest;
+import com.iemr.helpline104.service.bloodComponentType.BloodComponentTypeService;
 import com.iemr.helpline104.service.bloodComponentType.BloodComponentTypeServiceImpl;
+import com.iemr.helpline104.service.bloodRequest.BloodRequestService;
 import com.iemr.helpline104.service.bloodRequest.BloodRequestServiceImpl;
 import com.iemr.helpline104.utils.mapper.InputMapper;
 import com.iemr.helpline104.utils.response.OutputResponse;
@@ -53,10 +55,10 @@ public class BloodRequestController {
 	private Logger logger = LoggerFactory.getLogger(BloodRequestController.class);
 
 	@Autowired
-	private BloodRequestServiceImpl bloodRequestServiceImpl;
+	private BloodRequestService bloodRequestService;
 
 	@Autowired
-	private BloodComponentTypeServiceImpl componentTypeServiceImpl;
+	private BloodComponentTypeService componentTypeService;
 
 	@CrossOrigin
 	@ApiOperation(value = "Save blood request details", consumes = "application/json", produces = "application/json")
@@ -70,7 +72,7 @@ public class BloodRequestController {
 
 			T_BloodRequest bloodRequest = null;
 
-			bloodRequest = bloodRequestServiceImpl.save(t_bloodRequest);
+			bloodRequest = bloodRequestService.save(t_bloodRequest);
 			output.setResponse(bloodRequest.toString());
 		} catch (Exception e) {
 			logger.error("saveBloodRequestDetails failed with error " + e.getMessage(), e);
@@ -92,7 +94,7 @@ public class BloodRequestController {
 
 			List<T_BloodRequest> bloodRequest = null;
 
-			bloodRequest = bloodRequestServiceImpl.getBloodRequest(t_bloodRequest.getBeneficiaryRegID(),
+			bloodRequest = bloodRequestService.getBloodRequest(t_bloodRequest.getBeneficiaryRegID(),
 					t_bloodRequest.getRequestID(), t_bloodRequest.getBenCallID());
 			output.setResponse(bloodRequest.toString());
 			logger.info("getbloodRequestDetails response size: "
@@ -113,7 +115,7 @@ public class BloodRequestController {
 		OutputResponse output = new OutputResponse();
 		List<M_ComponentType> bloodComponentTypes = null;
 		try {
-			bloodComponentTypes = componentTypeServiceImpl.getBloodComponentTypes();
+			bloodComponentTypes = componentTypeService.getBloodComponentTypes();
 			output.setResponse(bloodComponentTypes.toString());
 		} catch (Exception e) {
 			logger.error("getBloodComponentTypes failed with error " + e.getMessage(), e);
@@ -131,7 +133,7 @@ public class BloodRequestController {
 		OutputResponse output = new OutputResponse();
 		List<M_BloodGroup> bloodGroups = null;
 		try {
-			bloodGroups = componentTypeServiceImpl.getBloodGroups();
+			bloodGroups = componentTypeService.getBloodGroups();
 			output.setResponse(bloodGroups.toString());
 		} catch (Exception e) {
 			logger.error("getBloodGroups failed with error " + e.getMessage(), e);
@@ -151,7 +153,7 @@ public class BloodRequestController {
 
 			BloodBank bloodBank = null;
 
-			bloodBank = bloodRequestServiceImpl.getBloodBankURL("104BloodBank");
+			bloodBank = bloodRequestService.getBloodBankURL("104BloodBank");
 
 			if (bloodBank == null)
 				output.setResponse("Blood bank URL is not configured");
@@ -177,7 +179,7 @@ public class BloodRequestController {
 			BloodBank bloodBank = inputMapper.gson().fromJson(request, BloodBank.class);
 			bloodBank.setInstitutionName("104BloodBank");
 
-			bloodBank = bloodRequestServiceImpl.saveBloodBankURL(bloodBank);
+			bloodBank = bloodRequestService.saveBloodBankURL(bloodBank);
 
 			output.setResponse(bloodBank.toString());
 

@@ -36,6 +36,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.iemr.helpline104.data.drugGroup.M_DrugGroup;
 import com.iemr.helpline104.data.drugMapping.M_104drugmapping;
+import com.iemr.helpline104.service.drugGroup.DrugGroupService;
 import com.iemr.helpline104.service.drugGroup.DrugGroupServiceImpl;
 import com.iemr.helpline104.utils.mapper.InputMapper;
 import com.iemr.helpline104.utils.response.OutputResponse;
@@ -51,7 +52,7 @@ public class DrugGroupController {
 	private Logger logger = LoggerFactory.getLogger(DrugGroupController.class);
 
 	@Autowired
-	private DrugGroupServiceImpl drugGroupServiceImpl;
+	private DrugGroupService drugGroupService;
 
 	@CrossOrigin
 	@ApiOperation(value = "Fetch drug groups", consumes = "application/json", produces = "application/json")
@@ -63,7 +64,7 @@ public class DrugGroupController {
 
 			List<M_DrugGroup> drugList = null;
 
-			drugList = drugGroupServiceImpl.getDrugGroups(m_DrugGroup.getServiceProviderID());
+			drugList = drugGroupService.getDrugGroups(m_DrugGroup.getServiceProviderID());
 
 			output.setResponse(drugList.toString());
 		} catch (Exception e) {
@@ -85,7 +86,7 @@ public class DrugGroupController {
 
 			List<M_104drugmapping> drugList = null;
 
-			drugList = drugGroupServiceImpl.getDrugList(m_104drugmapping.getProviderServiceMapID(),
+			drugList = drugGroupService.getDrugList(m_104drugmapping.getProviderServiceMapID(),
 					m_104drugmapping.getDrugGroupID());
 
 			output.setResponse(drugList.toString());
@@ -106,7 +107,7 @@ public class DrugGroupController {
 		OutputResponse output = new OutputResponse();
 		try {
 
-			ArrayList<Objects[]> drugFrequency = drugGroupServiceImpl.getDrugFrequency();
+			ArrayList<Objects[]> drugFrequency = drugGroupService.getDrugFrequency();
 			output.setResponse(drugFrequency.toString());
 
 		} catch (Exception e) {
@@ -127,8 +128,7 @@ public class DrugGroupController {
 
 			M_DrugGroup m_DrugGroup = inputMapper.gson().fromJson(request, M_DrugGroup.class);
 
-			ArrayList<Objects[]> drugStrength = drugGroupServiceImpl
-					.getDrugStrength(m_DrugGroup.getServiceProviderID());
+			ArrayList<Objects[]> drugStrength = drugGroupService.getDrugStrength(m_DrugGroup.getServiceProviderID());
 			output.setResponse(drugStrength.toString());
 
 		} catch (Exception e) {
@@ -151,7 +151,7 @@ public class DrugGroupController {
 
 			List<M_104drugmapping> drugList = null;
 
-			drugList = drugGroupServiceImpl.getDrugDetailList(m_104drugmapping.getProviderServiceMapID());
+			drugList = drugGroupService.getDrugDetailList(m_104drugmapping.getProviderServiceMapID());
 
 			output.setResponse(drugList.toString());
 		} catch (Exception e) {

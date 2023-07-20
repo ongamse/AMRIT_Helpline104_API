@@ -36,6 +36,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.iemr.helpline104.data.casesheet.COVIDHistory;
 import com.iemr.helpline104.data.casesheet.H104BenMedHistory;
+import com.iemr.helpline104.service.casesheet.H104BenHistoryService;
 import com.iemr.helpline104.service.casesheet.H104BenHistoryServiceImpl;
 import com.iemr.helpline104.utils.mapper.InputMapper;
 import com.iemr.helpline104.utils.response.OutputResponse;
@@ -50,7 +51,7 @@ public class Helpline104BeneficiaryHistoryController {
 	private Logger logger = LoggerFactory.getLogger(Helpline104BeneficiaryHistoryController.class);
 
 	@Autowired
-	private H104BenHistoryServiceImpl h104BenHistoryServiceImpl;
+	private H104BenHistoryService h104BenHistoryService;
 
 	@CrossOrigin
 	@ApiOperation(value = "Retrieves case record", consumes = "application/json", produces = "application/json")
@@ -63,7 +64,7 @@ public class Helpline104BeneficiaryHistoryController {
 			H104BenMedHistory smpleBenreq = inputMapper.gson().fromJson(request, H104BenMedHistory.class);
 			logger.info("getBenCaseSheet request " + smpleBenreq.toString());
 
-			List<H104BenMedHistory> smpleBenHistory = h104BenHistoryServiceImpl
+			List<H104BenMedHistory> smpleBenHistory = h104BenHistoryService
 					.geSmpleBenHistory(smpleBenreq.getBeneficiaryRegID(), smpleBenreq.getBenCallID());
 			output.setResponse(smpleBenHistory.toString());
 			logger.info("getBenCaseSheet response: " + output);
@@ -86,15 +87,14 @@ public class Helpline104BeneficiaryHistoryController {
 			logger.info("addBeneficiaryRelation request " + smpleBenHistory.toString());
 			COVIDHistory covidHistory = inputMapper.gson().fromJson(request, COVIDHistory.class);
 
-			H104BenMedHistory benmedhistory = h104BenHistoryServiceImpl.saveSmpleBenHistory(smpleBenHistory,
-					covidHistory);
+			H104BenMedHistory benmedhistory = h104BenHistoryService.saveSmpleBenHistory(smpleBenHistory, covidHistory);
 
 			if (benmedhistory.getActionByCO() != null || benmedhistory.getActionByPD() != null) {
 				String requestID = "MH/" + benmedhistory.getDistrictID() + "/"
 						+ new SimpleDateFormat("ddMMyyyy").format(Calendar.getInstance().getTimeInMillis()) + "/"
 						+ benmedhistory.getBenHistoryID();
 				benmedhistory.setRequestID(requestID);
-				benmedhistory = h104BenHistoryServiceImpl.saveSmpleBenHistory(benmedhistory, covidHistory);
+				benmedhistory = h104BenHistoryService.saveSmpleBenHistory(benmedhistory, covidHistory);
 			}
 
 			output.setResponse(benmedhistory.toString());
@@ -117,7 +117,7 @@ public class Helpline104BeneficiaryHistoryController {
 			H104BenMedHistory smpleBenreq = inputMapper.gson().fromJson(request, H104BenMedHistory.class);
 			logger.info("getPresentCaseSheet request " + smpleBenreq.toString());
 
-			List<H104BenMedHistory> smpleBenHistory = h104BenHistoryServiceImpl
+			List<H104BenMedHistory> smpleBenHistory = h104BenHistoryService
 					.getPresentCasesheet(smpleBenreq.getBeneficiaryRegID(), smpleBenreq.getCallID().trim());
 			output.setResponse(smpleBenHistory.toString());
 			logger.info("getPresentCaseSheet response: " + output);

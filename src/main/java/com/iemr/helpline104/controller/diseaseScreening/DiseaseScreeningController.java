@@ -35,7 +35,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.iemr.helpline104.data.diseaseScreening.M_Questionnaire;
 import com.iemr.helpline104.data.diseaseScreening.M_questionairValues;
+import com.iemr.helpline104.service.diseaseScreening.QuestionScoreService;
 import com.iemr.helpline104.service.diseaseScreening.QuestionScoreServiceImpl;
+import com.iemr.helpline104.service.diseaseScreening.QuestionnaireService;
 import com.iemr.helpline104.service.diseaseScreening.QuestionnaireServiceImpl;
 import com.iemr.helpline104.utils.mapper.InputMapper;
 import com.iemr.helpline104.utils.response.OutputResponse;
@@ -51,10 +53,10 @@ public class DiseaseScreeningController {
 	private Logger logger = LoggerFactory.getLogger(DiseaseScreeningController.class);
 
 	@Autowired
-	private QuestionnaireServiceImpl questionnaireServiceImpl;
+	private QuestionnaireService questionnaireService;
 
 	@Autowired
-	private QuestionScoreServiceImpl questionScoreServiceImpl;
+	private QuestionScoreService questionScoreService;
 
 	@CrossOrigin
 	@ApiOperation(value = "Fetch disease screening questions", consumes = "application/json", produces = "application/json")
@@ -68,7 +70,7 @@ public class DiseaseScreeningController {
 
 			List<Objects[]> Questions = null;
 
-			Questions = questionnaireServiceImpl.fetchQuestions(m_questionnaire.getQuestionTypeID(),
+			Questions = questionnaireService.fetchQuestions(m_questionnaire.getQuestionTypeID(),
 					m_questionnaire.getProviderServiceMapID());
 			output.setResponse(Questions.toString());
 			logger.info("getQuestions response size: "
@@ -92,7 +94,7 @@ public class DiseaseScreeningController {
 
 			List<M_questionairValues> Questions = null;
 
-			Questions = questionScoreServiceImpl.fetchAnswers(m_104QuestionScore.getQuestionID());
+			Questions = questionScoreService.fetchAnswers(m_104QuestionScore.getQuestionID());
 			output.setResponse(Questions.toString());
 			logger.info("fetchAnswers response size: "
 					+ ((Questions.size() > 0) ? Questions.size() : "No Beneficiary Found"));

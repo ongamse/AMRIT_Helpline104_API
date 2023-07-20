@@ -41,7 +41,7 @@ import com.iemr.helpline104.data.cdss.SymptomsWrapper;
 import com.iemr.helpline104.service.cdss.CDSSServiceImpl;
 
 @RunWith(MockitoJUnitRunner.class)
-public class CDSSControllerTest {
+public class ClinicalDecisionSupportSystemControllerTest {
 
 	@InjectMocks
 	ClinicalDecisionSupportSystemController cDSSController;

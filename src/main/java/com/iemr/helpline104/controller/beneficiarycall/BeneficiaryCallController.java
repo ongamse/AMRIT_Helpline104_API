@@ -48,10 +48,10 @@ import io.swagger.annotations.ApiParam;
 
 @RestController
 @RequestMapping(value = "/beneficiary")
-public class BeneficiarycallController {
+public class BeneficiaryCallController {
 	InputMapper inputMapper = new InputMapper();
 
-	private Logger logger = LoggerFactory.getLogger(BeneficiarycallController.class);
+	private Logger logger = LoggerFactory.getLogger(BeneficiaryCallController.class);
 	private ServicesHistoryService servicesHistoryService;
 	private BeneficiaryCallService beneficiaryCallService;
 

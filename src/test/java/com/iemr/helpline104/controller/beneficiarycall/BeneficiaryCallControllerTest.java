@@ -42,10 +42,10 @@ import com.iemr.helpline104.service.beneficiarycall.ServicesHistoryService;
 import com.iemr.helpline104.utils.exception.IEMRException;
 
 @RunWith(MockitoJUnitRunner.class)
-public class BeneficiarycallControllerTest {
+public class BeneficiaryCallControllerTest {
 
 	@InjectMocks
-	BeneficiarycallController beneficiarycallController;
+	BeneficiaryCallController beneficiarycallController;
 	
 	@Mock
 	ServicesHistoryService servicesHistoryService;

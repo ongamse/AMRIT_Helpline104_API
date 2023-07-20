@@ -35,7 +35,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.iemr.helpline104.controller.feedback.FeedbackController;
 import com.iemr.helpline104.data.balVivah.BalVivahComplaint;
-import com.iemr.helpline104.service.balVivah.BalVivahComplaintImpl;
 import com.iemr.helpline104.service.balVivah.BalVivahComplaintService;
 import com.iemr.helpline104.utils.mapper.InputMapper;
 import com.iemr.helpline104.utils.response.OutputResponse;
@@ -51,9 +50,6 @@ public class BalVivahController {
 	@Autowired
 	private BalVivahComplaintService balVivahComplaintService;
 
-	@Autowired
-	private BalVivahComplaintImpl balVivahComplaintImpl;
-
 	@CrossOrigin()
 	@ApiOperation(value = "Save bal vivah complaint", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/saveBalVivahComplaint", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON, headers = "Authorization")
@@ -61,7 +57,7 @@ public class BalVivahController {
 		OutputResponse output = new OutputResponse();
 		try {
 			BalVivahComplaint balVivahComplaint = InputMapper.gson().fromJson(request, BalVivahComplaint.class);
-			String vivahComplaint = balVivahComplaintImpl.save(balVivahComplaint, httpRequest);
+			String vivahComplaint = balVivahComplaintService.save(balVivahComplaint, httpRequest);
 			output.setResponse(vivahComplaint);
 		} catch (Exception e) {
 			output.setError(e);
@@ -77,7 +73,7 @@ public class BalVivahController {
 		try {
 
 			BalVivahComplaint balVivahComplaint = InputMapper.gson().fromJson(request, BalVivahComplaint.class);
-			String balVivahComplaintList = balVivahComplaintImpl.getWorklistRequests(
+			String balVivahComplaintList = balVivahComplaintService.getWorklistRequests(
 					balVivahComplaint.getBeneficiaryRegID(), balVivahComplaint.getPhoneNum(),
 					balVivahComplaint.getRequestID());
 			response.setResponse(balVivahComplaintList);
@@ -98,7 +94,7 @@ public class BalVivahController {
 			BalVivahComplaint balVivahComplaint = InputMapper.gson().fromJson(request, BalVivahComplaint.class);
 
 			if (balVivahComplaint != null && balVivahComplaint.getRequestID() != null) {
-				String result = balVivahComplaintImpl.updateBalVivahRequest(balVivahComplaint);
+				String result = balVivahComplaintService.updateBalVivahRequest(balVivahComplaint);
 
 				if (result != null)
 					output.setResponse(result);
