@@ -38,6 +38,6 @@ public interface CoMoOutboundCallRepository extends CrudRepository<T_104CoMoOutb
 
 	@Transactional
 	@Modifying
-	@Query("update T_104CoMoOutboundCallDetails set callId = :callId WHERE iD = :iD")
-	public Integer update(@Param("iD") Long iD, @Param("callId") String callId);
+	@Query("update T_104CoMoOutboundCallDetails set czentrixCallID = :czentrixCallID WHERE iD = :iD")
+	public Integer update(@Param("iD") Long iD, @Param("czentrixCallID") String czentrixCallID);
 }
