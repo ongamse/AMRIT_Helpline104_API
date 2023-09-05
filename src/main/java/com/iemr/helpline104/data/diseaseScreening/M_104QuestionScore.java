@@ -25,19 +25,15 @@ import java.sql.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.google.gson.Gson;
 
-
 @Entity
-@Table(name="m_104questionscore")
+@Table(name = "m_104questionscore")
 public class M_104QuestionScore {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -48,16 +44,15 @@ public class M_104QuestionScore {
 	private Integer score;
 	private Boolean deleted;
 	private String createdBy;
-	@Column(name = "CreatedDate", insertable=false, updatable=false)
+	@Column(name = "CreatedDate", insertable = false, updatable = false)
 	private Date createdDate;
 	@Column(name = "ModifiedBy")
 	private String modifiedBy;
-	@Column(name = "LastModDate", insertable=false, updatable=false)
+	@Column(name = "LastModDate", insertable = false, updatable = false)
 	private Date lastModDate;
-	
+
 	public M_104QuestionScore() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public M_104QuestionScore(Integer iD, Integer questionID, String answer, Integer score) {
@@ -135,9 +130,9 @@ public class M_104QuestionScore {
 	public Integer getQuestionID() {
 		return questionID;
 	}
-	
+
 	public String toString() {
 		return new Gson().toJson(this);
 	}
-	
+
 }

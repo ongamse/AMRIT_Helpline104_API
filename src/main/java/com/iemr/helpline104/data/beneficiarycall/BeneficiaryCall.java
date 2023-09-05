@@ -24,7 +24,6 @@ package com.iemr.helpline104.data.beneficiarycall;
 import java.lang.reflect.Type;
 import java.sql.Date;
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -40,7 +39,6 @@ import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.Expose;
 import com.google.gson.reflect.TypeToken;
 import com.iemr.helpline104.data.location.DistrictBlock;
@@ -63,19 +61,19 @@ public class BeneficiaryCall {
 
 	@Expose
 	@Column(name = "BeneficiaryRegID")
-	private Long beneficiaryRegID;	
-	
+	private Long beneficiaryRegID;
+
 	@Expose
-	@Column( name="CallID")
+	@Column(name = "CallID")
 	private String callID;
-	
+
 	@Expose
 	@Column(name = "CalledServiceID")
 	private Integer calledServiceID;
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(updatable = false, insertable = false, name = "calledServiceID")
 	private M_ServiceMaster m_serviceMaster;
-	
+
 	@Expose
 	@Column(name = "is1097")
 	private Boolean is1097;
@@ -109,20 +107,20 @@ public class BeneficiaryCall {
 	private String category;
 	@Column(name = "SubCategory")
 	private String subCategory;
-	
+
 	@Expose
 	@Column(name = "CDICallStatus")
 	private String cDICallStatus;
-	
+
 	@Column(name = "Deleted", insertable = false, updatable = true)
 	private Boolean deleted;
 	@Column(name = "CreatedBy")
 	private String createdBy;
-	@Column(name = "CreatedDate", insertable=false, updatable=false)
+	@Column(name = "CreatedDate", insertable = false, updatable = false)
 	private Date createdDate;
 	@Column(name = "ModifiedBy")
 	private String modifiedBy;
-	@Column(name = "LastModDate", insertable=false, updatable=false)
+	@Column(name = "LastModDate", insertable = false, updatable = false)
 	private Date lastModDate;
 
 	@Expose
@@ -136,7 +134,7 @@ public class BeneficiaryCall {
 	@Expose
 	@Transient
 	private Long referralServices;
-	
+
 	public Long getBenCallID() {
 		return benCallID;
 	}
@@ -152,8 +150,7 @@ public class BeneficiaryCall {
 	public Integer getCalledServiceID() {
 		return calledServiceID;
 	}
-	
-	
+
 	public String getCallID() {
 		return callID;
 	}
@@ -161,7 +158,7 @@ public class BeneficiaryCall {
 	public void setCallID(String callID) {
 		this.callID = callID;
 	}
-	
+
 	public Boolean getIs1097() {
 		return is1097;
 	}
@@ -169,7 +166,7 @@ public class BeneficiaryCall {
 	public void setIs1097(Boolean is1097) {
 		this.is1097 = is1097;
 	}
-	
+
 	public Date getCallTime() {
 		return callTime;
 	}
@@ -237,14 +234,16 @@ public class BeneficiaryCall {
 	public Date getLastModDate() {
 		return lastModDate;
 	}
-	
-	public BeneficiaryCall(){
-		
+
+	public BeneficiaryCall() {
+
 	}
+
 	public BeneficiaryCall(Long benCallID, String benCallServicesMappingHistories, Integer calledServiceID,
 			Boolean is1097, Date callTime, String remarks, String callClosureType, Integer dispositionStatusID) {
 		this.benCallID = benCallID;
-		Type listType = new TypeToken<List<String>>(){}.getType();
+		Type listType = new TypeToken<List<String>>() {
+		}.getType();
 		this.benCallServicesMappingHistories = new Gson().fromJson(benCallServicesMappingHistories, listType);
 		this.calledServiceID = calledServiceID;
 		this.is1097 = is1097;
@@ -254,8 +253,8 @@ public class BeneficiaryCall {
 		this.dispositionStatusID = dispositionStatusID;
 	}
 
-	public BeneficiaryCall(Long benCallID, Date callTime, String remarks, 
-			Long informationServices, Long feedbackServices, Long referralServices, Date createdDate) {
+	public BeneficiaryCall(Long benCallID, Date callTime, String remarks, Long informationServices,
+			Long feedbackServices, Long referralServices, Date createdDate) {
 		this.benCallID = benCallID;
 		this.callTime = callTime;
 		this.remarks = remarks;
@@ -263,48 +262,36 @@ public class BeneficiaryCall {
 		this.feedbackServices = feedbackServices;
 		this.referralServices = referralServices;
 		this.createdDate = createdDate;
-	}			
-			
-	public BeneficiaryCall(Long benCallID, Integer callReceivedUserID, Long beneficiaryRegID, 
-			String firstName, String middleName, String lastName, Short genderID, String genderName, Date dOB, Integer cityID, String cityName  ,
-			Short beneficiaryTypeID, String beneficiaryType, Integer healthCareWorkerId) {
-		this.benCallID = benCallID;
-		this.callReceivedUserID =callReceivedUserID;
-		
 	}
-	
+
+	public BeneficiaryCall(Long benCallID, Integer callReceivedUserID, Long beneficiaryRegID, String firstName,
+			String middleName, String lastName, Short genderID, String genderName, Date dOB, Integer cityID,
+			String cityName, Short beneficiaryTypeID, String beneficiaryType, Integer healthCareWorkerId) {
+		this.benCallID = benCallID;
+		this.callReceivedUserID = callReceivedUserID;
+
+	}
+
 	public BeneficiaryCall(Long beneficiaryRegID, Boolean is1097, String createdBy) {
 		this.beneficiaryRegID = beneficiaryRegID;
 		this.is1097 = is1097;
-		this.createdBy=createdBy;
+		this.createdBy = createdBy;
 	}
-	
-	
-	public BeneficiaryCall(Long benCallID, Integer callReceivedUserID, Long beneficiaryRegID, 
-			String firstName, String middleName, String lastName, Short genderID, String genderName, Date dOB, Integer cityID, String cityName  ,
-			Short beneficiaryTypeID, String beneficiaryType, Integer healthCareWorkerId, Districts districts, DistrictBlock districtBlocks,
-			DistrictBranchMapping districtBranchMapping) {
-		this.benCallID = benCallID;
-		this.callReceivedUserID =callReceivedUserID;
-		
-	}
-	
 
-	//@Override
-	//public String toString() {
-		/*GsonBuilder gsonBuilder = new GsonBuilder();
-		//gsonBuilder.excludeFieldsWithoutExposeAnnotation();
-		gsonBuilder.serializeNulls();
-		String tostring = gsonBuilder.create().toJson(this);*/
-		//return new Gson().toJson(this);
-	//}
-	
+	public BeneficiaryCall(Long benCallID, Integer callReceivedUserID, Long beneficiaryRegID, String firstName,
+			String middleName, String lastName, Short genderID, String genderName, Date dOB, Integer cityID,
+			String cityName, Short beneficiaryTypeID, String beneficiaryType, Integer healthCareWorkerId,
+			Districts districts, DistrictBlock districtBlocks, DistrictBranchMapping districtBranchMapping) {
+		this.benCallID = benCallID;
+		this.callReceivedUserID = callReceivedUserID;
+
+	}
+
 	@Transient
 	private OutputMapper outputMapper = new OutputMapper();
 
 	@Override
-	public String toString()
-	{
+	public String toString() {
 		return outputMapper.gson().toJson(this);
 	}
 }

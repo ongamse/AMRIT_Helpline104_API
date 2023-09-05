@@ -31,7 +31,6 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import com.google.gson.Gson;
 import com.google.gson.annotations.Expose;
 import com.iemr.helpline104.utils.mapper.OutputMapper;
 
@@ -44,96 +43,93 @@ public class Disease {
 	@Column(name = "DiseasesummaryID")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer diseasesummaryID;
-	
+
 	@Expose
 	@Column(name = "DiseaseName")
 	private String diseaseName;
-	
+
 	@Expose
 	@Column(name = "Summary")
 	private String summary;
-	
+
 	@Expose
 	@Column(name = "is_dangerous")
 	private String couldbedangerous;
-	
+
 	@Expose
 	@Column(name = "Causes")
 	private String causes;
-	
+
 	@Expose
 	@Column(name = "Dos_Donts")
 	private String dos_donts;
-	
+
 	@Expose
 	@Column(name = "Symptoms_Signs")
 	private String symptoms_Signs;
-	
+
 	@Expose
 	@Column(name = "medicaladvice")
 	private String medicaladvice;
-	
+
 	@Expose
 	@Column(name = "Riskfactors")
 	private String riskfactors;
-	
+
 	@Expose
 	@Column(name = "Treatment")
 	private String treatment;
-	
+
 	@Expose
 	@Column(name = "Self_care")
 	private String self_care;
-	
+
 	@Expose
 	@Column(name = "Investigations")
 	private String investigations;
-	
+
 	@Expose
-	@Column(name="Deleted" , insertable=false, updatable=true)
+	@Column(name = "Deleted", insertable = false, updatable = true)
 	private Boolean deleted;
 
 	@Expose
-	@Column(name="CreatedBy")
+	@Column(name = "CreatedBy")
 	private String createdBy;
-	
+
 	@Expose
 	@Column(name = "CreatedDate", insertable = false, updatable = false)
 	private Date createdDate;
-	
+
 	@Expose
-	@Column(name="ModifiedBy")
+	@Column(name = "ModifiedBy")
 	private String modifiedBy;
-	
+
 	@Expose
-	@Column(name="LastModDate" , insertable=false, updatable=true)
+	@Column(name = "LastModDate", insertable = false, updatable = true)
 	private Date lastModDate;
-	
+
 	@Expose
 	@Transient
 	private Integer pageSize;
-	
+
 	@Expose
 	@Transient
 	private Integer pageNo;
-	
+
 	@Transient
 	private OutputMapper outputMapper = new OutputMapper();
 
 	@Override
-	public String toString()
-	{
+	public String toString() {
 		return outputMapper.gson().toJson(this);
 	}
-	
-	public Disease()
-	{
+
+	public Disease() {
 	}
-	
-	public Disease(Integer diseasesummaryID, String diseaseName)
-	{
-		this.diseasesummaryID=diseasesummaryID;
-		this.diseaseName=diseaseName;
+
+	public Disease(Integer diseasesummaryID, String diseaseName) {
+		this.diseasesummaryID = diseasesummaryID;
+		this.diseaseName = diseaseName;
 	}
 
 	public Integer getDiseasesummaryID() {
@@ -288,6 +284,4 @@ public class Disease {
 		this.dos_donts = dos_donts;
 	}
 
-
-	
 }

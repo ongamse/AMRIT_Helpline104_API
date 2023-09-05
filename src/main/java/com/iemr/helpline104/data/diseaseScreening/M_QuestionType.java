@@ -33,7 +33,7 @@ import javax.persistence.Table;
 import com.google.gson.Gson;
 
 @Entity
-@Table(name="m_questiontype")
+@Table(name = "m_questiontype")
 public class M_QuestionType {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,16 +42,15 @@ public class M_QuestionType {
 	private String questionTypeDesc;
 	private Boolean deleted;
 	private String createdBy;
-	@Column(name = "CreatedDate", insertable=false, updatable=false)
+	@Column(name = "CreatedDate", insertable = false, updatable = false)
 	private Date createdDate;
 	@Column(name = "ModifiedBy")
 	private String modifiedBy;
-	@Column(name = "LastModDate", insertable=false, updatable=false)
+	@Column(name = "LastModDate", insertable = false, updatable = false)
 	private Date lastModDate;
-	
+
 	public M_QuestionType() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public M_QuestionType(Integer questionTypeID, String questionType, String questionTypeDesc, Boolean deleted,
@@ -126,9 +125,9 @@ public class M_QuestionType {
 	public Integer getQuestionTypeID() {
 		return questionTypeID;
 	}
-	
+
 	public String toString() {
 		return new Gson().toJson(this);
 	}
-	
+
 }
