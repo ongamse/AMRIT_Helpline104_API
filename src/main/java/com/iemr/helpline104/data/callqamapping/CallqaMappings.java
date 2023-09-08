@@ -30,7 +30,6 @@ import javax.persistence.Id;
 import javax.persistence.Transient;
 
 import com.google.gson.Gson;
-import com.iemr.helpline104.data.organDonation.T_OrganDonation;
 
 @Entity
 public class CallqaMappings {

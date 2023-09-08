@@ -56,7 +56,6 @@ public class T_104CoMoOutboundCallDetails {
 	
 	public T_104CoMoOutboundCallDetails() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public T_104CoMoOutboundCallDetails(Long iD, Integer uSRMappingID, String callId, String callType,

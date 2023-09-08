@@ -44,7 +44,7 @@ import com.iemr.helpline104.data.diseaseScreening.M_questionairValues;
 import com.iemr.helpline104.data.diseaseScreening.M_Questionnaire;
 
 @Entity
-@Table(name="t_104bencdiresponse")
+@Table(name = "t_104bencdiresponse")
 public class M_104callqamapping {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -61,7 +61,7 @@ public class M_104callqamapping {
 	@JsonIgnore
 	@Expose
 	private M_Questionnaire m_questionnaire;
-	
+
 	private String answer;
 	private Integer score;
 	private Integer totalScore;
@@ -71,30 +71,21 @@ public class M_104callqamapping {
 	private Boolean deleted;
 	private Character processed;
 	private String createdBy;
-	@Column(name = "CreatedDate", insertable=false, updatable=false)
+	@Column(name = "CreatedDate", insertable = false, updatable = false)
 	private Date createdDate;
 	@Column(name = "ModifiedBy")
 	private String modifiedBy;
-	@Column(name = "LastModDate", insertable=false, updatable=false)
+	@Column(name = "LastModDate", insertable = false, updatable = false)
 	private Date lastModDate;
 	@Column(name = "reasonIfNo")
 	private String reasonIfNo;
-	
+
 	public M_104callqamapping() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
-	/*public M_104callqamapping(Long beneficiaryRegID, Integer questionID, String answer, String remarks, M_Questionnaire m_questionnaire) {
-		super();
-		this.beneficiaryRegID = beneficiaryRegID;
-		this.questionID = questionID;
-		this.answer = answer;
-		this.remarks = remarks;
-		this.m_questionnaire = m_questionnaire;
-	}*/
-	
-	public M_104callqamapping(Long beneficiaryRegID, Integer questionID, String answer, String remarks, M_questionairValues questionScore, String question) {
+	public M_104callqamapping(Long beneficiaryRegID, Integer questionID, String answer, String remarks,
+			M_questionairValues questionScore, String question) {
 		super();
 		this.beneficiaryRegID = beneficiaryRegID;
 		this.questionID = questionID;
@@ -106,14 +97,15 @@ public class M_104callqamapping {
 		this.m_questionnaire.setM_104QuestionScore(questionScores);
 		this.m_questionnaire.setQuestion(question);
 	}
-	
-	public M_104callqamapping(Long beneficiaryRegID, String answer, Integer score, String remarks, String question, String reasonIfNo, String questionType, String answerType) {
+
+	public M_104callqamapping(Long beneficiaryRegID, String answer, Integer score, String remarks, String question,
+			String reasonIfNo, String questionType, String answerType) {
 		super();
-		this.beneficiaryRegID = beneficiaryRegID;		
+		this.beneficiaryRegID = beneficiaryRegID;
 		this.answer = answer;
 		this.score = score;
 		this.remarks = remarks;
-		this.m_questionnaire = new M_Questionnaire();		
+		this.m_questionnaire = new M_Questionnaire();
 		this.m_questionnaire.setQuestion(question);
 		this.reasonIfNo = reasonIfNo;
 		this.m_questionnaire.setQuestionType(questionType);
@@ -123,7 +115,7 @@ public class M_104callqamapping {
 	public Long getiD() {
 		return iD;
 	}
-	
+
 	public Long getBeneficiaryRegID() {
 		return beneficiaryRegID;
 	}
@@ -195,6 +187,7 @@ public class M_104callqamapping {
 	public void setLastModDate(Date lastModDate) {
 		this.lastModDate = lastModDate;
 	}
+
 	public String getCallerID() {
 		return callerID;
 	}
@@ -210,7 +203,7 @@ public class M_104callqamapping {
 	public void setProcessed(Character processed) {
 		this.processed = processed;
 	}
-	
+
 	public M_Questionnaire getM_questionnaire() {
 		return m_questionnaire;
 	}
@@ -218,7 +211,7 @@ public class M_104callqamapping {
 	public void setM_questionnaire(M_Questionnaire m_questionnaire) {
 		this.m_questionnaire = m_questionnaire;
 	}
-	
+
 	public String toString() {
 		return new Gson().toJson(this);
 	}

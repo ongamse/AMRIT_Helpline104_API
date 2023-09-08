@@ -43,11 +43,9 @@ public class M_Questionnaire {
 	private Integer questionID;
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "questionID")
 	private Set<M_questionairValues> m_questionairValues;
-	
+
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "questionID")
 	private Set<M_104QuestionScore> m_104QuestionScore;
-
-	
 
 	private String question;
 	private String questionDesc;
@@ -72,7 +70,6 @@ public class M_Questionnaire {
 
 	public M_Questionnaire() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public M_Questionnaire(Integer questionID, String question, String questionDesc, Integer questionTypeID,
@@ -235,5 +232,5 @@ public class M_Questionnaire {
 	public void setM_104QuestionScore(Set<M_104QuestionScore> m_104QuestionScore) {
 		this.m_104QuestionScore = m_104QuestionScore;
 	}
-	
+
 }
