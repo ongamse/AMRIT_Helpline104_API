@@ -37,14 +37,12 @@ import com.iemr.helpline104.data.userbeneficiarydata.M_Title;
 public class BeneficiaryRegistrationData {
 	private List<M_Title> m_Title;
 	private List<M_Status> m_Status;
-	// private List<I_BeneficiaryEducation> i_BeneficiaryEducation;
 	private List<States> states;
 	private List<M_Gender> m_genders;
 	private List<M_MaritalStatus> m_maritalStatuses;
 	private List<M_Community> m_communities;
 	private List<M_Language> m_language;
 	private List<Directory> directory;
-	// private List<I_BenRelationshipType> i_beneficiaryType;
 	private List<M_PhoneType> phoneTypes;
 
 	public String toString() {
