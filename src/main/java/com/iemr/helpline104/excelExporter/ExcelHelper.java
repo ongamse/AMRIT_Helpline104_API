@@ -39,7 +39,7 @@ import com.iemr.helpline104.utils.exception.IEMRException;
 
 public class ExcelHelper {
 
-	public static String TYPE = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+	public static final String TYPE = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
 	static String[] CriteriaHEADERs = { "Filter Name", "Value" };
 	static String SHEET = "Users";
 
