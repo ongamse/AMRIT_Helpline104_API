@@ -1,3 +1,24 @@
+/*
+* AMRIT – Accessible Medical Records via Integrated Technology
+* Integrated EHR (Electronic Health Records) Solution
+*
+* Copyright (C) "Piramal Swasthya Management and Research Institute"
+*
+* This file is part of AMRIT.
+*
+* This program is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with this program.  If not, see https://www.gnu.org/licenses/.
+*/
 package com.iemr.helpline104.controller.foodSafetyComplaint;
 
 import java.util.List;
@@ -15,7 +36,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.iemr.helpline104.data.foodSafetyCopmlaint.T_FoodSafetyCopmlaint;
-import com.iemr.helpline104.service.foodSafetyCopmlaint.FoodSafetyCopmlaintServiceImpl;
+import com.iemr.helpline104.service.foodSafetyCopmlaint.FoodSafetyCopmlaintService;
 import com.iemr.helpline104.utils.mapper.InputMapper;
 import com.iemr.helpline104.utils.response.OutputResponse;
 
@@ -24,15 +45,15 @@ import io.swagger.annotations.ApiParam;
 
 @RequestMapping(value = "/beneficiary")
 @RestController
-public class FoodSafetyCopmlaintController {
+public class FoodSafetyComplaintController {
 	InputMapper inputMapper = new InputMapper();
-	private Logger logger = LoggerFactory.getLogger(FoodSafetyCopmlaintController.class);
+	private Logger logger = LoggerFactory.getLogger(FoodSafetyComplaintController.class);
 
 	@Autowired
-	private FoodSafetyCopmlaintServiceImpl foodSafetyCopmlaintServiceImpl;
+	private FoodSafetyCopmlaintService foodSafetyCopmlaintService;
 
 	@CrossOrigin
-	@ApiOperation(value = "stores food safety complaint details", consumes = "application/json", produces = "application/json")
+	@ApiOperation(value = "Stores food safety complaint details", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/save/foodComplaintDetails", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, headers = "Authorization")
 	public String saveFoodComplaintDetails(
 			@ApiParam(value = "{\"typeOfRequest\":\"string\",\"isDiarrhea\":\"byte\",\"isVomiting\":\"byte\",\"isAbdominalPain\":\"byte\",\"isChillsOrRigors\":\"byte\","
@@ -49,7 +70,7 @@ public class FoodSafetyCopmlaintController {
 			T_FoodSafetyCopmlaint foodComplaint;
 
 			t_foodSafetyCopmlaint.setDeleted(false);
-			foodComplaint = foodSafetyCopmlaintServiceImpl.save(t_foodSafetyCopmlaint, httpRequest);
+			foodComplaint = foodSafetyCopmlaintService.save(t_foodSafetyCopmlaint, httpRequest);
 			output.setResponse(foodComplaint.toString());
 		} catch (Exception e) {
 			logger.error("saveFoodComplaintDetails failed with error " + e.getMessage(), e);
@@ -60,7 +81,7 @@ public class FoodSafetyCopmlaintController {
 	}
 
 	@CrossOrigin
-	@ApiOperation(value = "provides food safety complaints history", consumes = "application/json", produces = "application/json")
+	@ApiOperation(value = "Provides food safety complaints history", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/get/foodComplaintDetails", method = RequestMethod.POST, headers = "Authorization")
 	public String getFoodComplaintDetails(
 			@ApiParam(value = "{\"beneficiaryRegID\":\"optional long\",   \"benCallID\":\" Optional long\",   \"requestID\":\" Optional string\"}") @RequestBody String request) {
@@ -72,16 +93,17 @@ public class FoodSafetyCopmlaintController {
 
 			List<T_FoodSafetyCopmlaint> foodComplaint = null;
 
-			foodComplaint = foodSafetyCopmlaintServiceImpl.getFoodSafetyComplaints(
+			foodComplaint = foodSafetyCopmlaintService.getFoodSafetyComplaints(
 					t_foodSafetyCopmlaint.getBeneficiaryRegID(), t_foodSafetyCopmlaint.getBenCallID(),
 					t_foodSafetyCopmlaint.getRequestID(), t_foodSafetyCopmlaint.getPhoneNo());
 			output.setResponse(foodComplaint.toString());
-			logger.info("getFoodComplaintDetails response size: " + ((foodComplaint.size()>0) ? foodComplaint.size() : "No Beneficiary Found"));
+			logger.info("getFoodComplaintDetails response size: "
+					+ ((foodComplaint.size() > 0) ? foodComplaint.size() : "No Beneficiary Found"));
 		} catch (Exception e) {
 			logger.error("getFoodComplaintDetails failed with error " + e.getMessage(), e);
 			output.setError(e);
 		}
-		
+
 		return output.toString();
 	}
 

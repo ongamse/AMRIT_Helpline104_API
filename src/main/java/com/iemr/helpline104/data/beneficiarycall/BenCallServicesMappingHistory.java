@@ -1,3 +1,24 @@
+/*
+* AMRIT – Accessible Medical Records via Integrated Technology
+* Integrated EHR (Electronic Health Records) Solution
+*
+* Copyright (C) "Piramal Swasthya Management and Research Institute"
+*
+* This file is part of AMRIT.
+*
+* This program is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with this program.  If not, see https://www.gnu.org/licenses/.
+*/
 package com.iemr.helpline104.data.beneficiarycall;
 
 import java.sql.Date;
@@ -46,15 +67,6 @@ public class BenCallServicesMappingHistory {
 	@JsonIgnore
 	@Expose
 	private BeneficiaryCall beneficiaryCall;
-    /*
-	@Column(name = "104ServiceID")
-	@Expose
-	private Integer serviceID104;
-	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "104ServiceID", insertable = false, updatable = false)
-	@JsonIgnore
-	@Expose
-	private ServicesMaster104 servicesMaster104;  */	
 
 	@Column(name = "Deleted", insertable = false, updatable = true)
 	private Boolean deleted;
@@ -73,41 +85,30 @@ public class BenCallServicesMappingHistory {
 
 	}
 
-
-//	public BenCallServicesMappingHistory(long beneficiaryRegID, Long benCallID, Integer serviceID1097, Boolean deleted, String createdBy) {
-//		// this.benCall97ServiceMapID = benCall97ServiceMapID;
-//		this.beneficiaryRegID = beneficiaryRegID;
-//		this.benCallID = benCallID;
-//		this.serviceID104 = serviceID1097;		
-//		this.deleted = deleted;
-//		this.createdBy = createdBy;
-//	}
-
-	public BenCallServicesMappingHistory(Long beneficiaryRegID, Long benCallID, Integer serviceID1097, Boolean deleted, String createdBy) {
+	public BenCallServicesMappingHistory(Long beneficiaryRegID, Long benCallID, Integer serviceID1097, Boolean deleted,
+			String createdBy) {
 		this.beneficiaryRegID = beneficiaryRegID;
 		this.benCallID = benCallID;
-		//this.serviceID104 = serviceID1097;		
+
 		this.deleted = deleted;
 		this.createdBy = createdBy;
 	}
 
-	public BenCallServicesMappingHistory(long beneficiaryRegID, Long benCallID, Integer serviceID1097,
-			String createdBy, Boolean deleted) {
+	public BenCallServicesMappingHistory(long beneficiaryRegID, Long benCallID, Integer serviceID1097, String createdBy,
+			Boolean deleted) {
 		this.beneficiaryRegID = beneficiaryRegID;
 		this.benCallID = benCallID;
-		//this.serviceID104 = serviceID1097;		
+
 		this.deleted = deleted;
 		this.createdBy = createdBy;
 	}
 
 	public BenCallServicesMappingHistory(Long benCall97ServiceMapID, Long beneficiaryRegID, Long benCallID,
-			Integer serviceID1097, ServicesMaster104 servicesMaster1097, 			
-			String createdBy, Date createdDate) {
+			Integer serviceID1097, ServicesMaster104 servicesMaster1097, String createdBy, Date createdDate) {
 		this.benCall104ServiceMapID = benCall97ServiceMapID;
 		this.beneficiaryRegID = beneficiaryRegID;
 		this.benCallID = benCallID;
-		//this.serviceID104 = serviceID1097;
-		//this.servicesMaster104 = servicesMaster1097;		
+
 		this.createdBy = createdBy;
 		this.createdDate = createdDate;
 	}
@@ -117,11 +118,10 @@ public class BenCallServicesMappingHistory {
 		this.benCall104ServiceMapID = benCall97ServiceMapID;
 		this.beneficiaryRegID = beneficiaryRegID;
 		this.benCallID = benCallID;
-		//this.serviceID104 = serviceID1097;		
+
 		this.createdBy = createdBy;
 		this.createdDate = createdDate;
-	}	
-	
+	}
 
 	public Long getBenCall97ServiceMapID() {
 		return benCall104ServiceMapID;
@@ -138,13 +138,6 @@ public class BenCallServicesMappingHistory {
 	public BeneficiaryCall getBeneficiaryCall() {
 		return beneficiaryCall;
 	}
-
-	/*
-	public Integer getServiceID1097() {
-		return serviceID104;
-	} */
-
-	
 
 	public Boolean getDeleted() {
 		return deleted;
@@ -166,7 +159,6 @@ public class BenCallServicesMappingHistory {
 		return lastModDate;
 	}
 
-	
 	@Override
 	public String toString() {
 		GsonBuilder gsonBuilder = new GsonBuilder();

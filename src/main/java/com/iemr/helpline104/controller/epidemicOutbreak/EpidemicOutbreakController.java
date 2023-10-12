@@ -1,3 +1,24 @@
+/*
+* AMRIT – Accessible Medical Records via Integrated Technology
+* Integrated EHR (Electronic Health Records) Solution
+*
+* Copyright (C) "Piramal Swasthya Management and Research Institute"
+*
+* This file is part of AMRIT.
+*
+* This program is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with this program.  If not, see https://www.gnu.org/licenses/.
+*/
 package com.iemr.helpline104.controller.epidemicOutbreak;
 
 import java.util.List;
@@ -15,7 +36,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.iemr.helpline104.data.epidemicOutbreak.T_EpidemicOutbreak;
-import com.iemr.helpline104.service.epidemicOutbreak.EpidemicOutbreakServiceImpl;
+import com.iemr.helpline104.service.epidemicOutbreak.EpidemicOutbreakService;
 import com.iemr.helpline104.utils.mapper.InputMapper;
 import com.iemr.helpline104.utils.response.OutputResponse;
 
@@ -29,10 +50,10 @@ public class EpidemicOutbreakController {
 	private Logger logger = LoggerFactory.getLogger(EpidemicOutbreakController.class);
 
 	@Autowired
-	private EpidemicOutbreakServiceImpl epidemicOutbreakServiceImpl;
+	private EpidemicOutbreakService epidemicOutbreakService;
 
 	@CrossOrigin
-	@ApiOperation(value = "stores epidemic outbreak complaint", consumes = "application/json", produces = "application/json")
+	@ApiOperation(value = "Store epidemic outbreak complaint", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/save/epidemicOutbreakComplaint", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, headers = "Authorization")
 	public String saveEpidemicOutbreakComplaint(
 			@ApiParam(value = "{\"beneficiaryRegID\":\"long\",\"natureOfComplaint\":\"string\",\"totalPeopleAffected\":\"integer\",\"affectedDistrictID\":\"integer\","
@@ -43,7 +64,7 @@ public class EpidemicOutbreakController {
 			T_EpidemicOutbreak t_epidemicOutbreak = inputMapper.gson().fromJson(request, T_EpidemicOutbreak.class);
 			logger.info("saveEpidemicOutbreakComplaint request " + t_epidemicOutbreak.toString());
 
-			T_EpidemicOutbreak epidemicOutbreakComplaint = epidemicOutbreakServiceImpl.save(t_epidemicOutbreak,
+			T_EpidemicOutbreak epidemicOutbreakComplaint = epidemicOutbreakService.save(t_epidemicOutbreak,
 					httpRequest);
 			output.setResponse(epidemicOutbreakComplaint.toString());
 			logger.info("saveEpidemicOutbreakComplaint response: " + output);
@@ -55,7 +76,7 @@ public class EpidemicOutbreakController {
 	}
 
 	@CrossOrigin
-	@ApiOperation(value = "provides epidemic outbreak complaints raised", consumes = "application/json", produces = "application/json")
+	@ApiOperation(value = "Fetch epidemic outbreak complaints", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/get/epidemicOutbreakComplaint", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, headers = "Authorization")
 	public String getEpidemicOutbreakComplaint(
 			@ApiParam(value = "{\"beneficiaryRegID\":\"optional long\",  \"benCallID\":\" Optional long\",  \"requestID\":\" Optional string\"}") @RequestBody String request) {
@@ -66,21 +87,23 @@ public class EpidemicOutbreakController {
 
 			List<T_EpidemicOutbreak> epidemicOutbreakComplaint = null;
 
-			epidemicOutbreakComplaint = epidemicOutbreakServiceImpl.getEpidemicOutbreakComplaints(
+			epidemicOutbreakComplaint = epidemicOutbreakService.getEpidemicOutbreakComplaints(
 					t_epidemicOutbreak.getBeneficiaryRegID(), t_epidemicOutbreak.getBenCallID(),
 					t_epidemicOutbreak.getRequestID(), t_epidemicOutbreak.getPhoneNum());
 			output.setResponse(epidemicOutbreakComplaint.toString());
-			logger.info("getEpidemicOutbreakComplaint response size: " + ((epidemicOutbreakComplaint.size()>0) ? epidemicOutbreakComplaint.size() : "No Beneficiary Found"));
+			logger.info("getEpidemicOutbreakComplaint response size: "
+					+ ((epidemicOutbreakComplaint.size() > 0) ? epidemicOutbreakComplaint.size()
+							: "No Beneficiary Found"));
 		} catch (Exception e) {
 			logger.error("getEpidemicOutbreakComplaint failed with error " + e.getMessage(), e);
 			output.setError(e);
 		}
-		
+
 		return output.toString();
 	}
 
 	@CrossOrigin
-	@ApiOperation(value = "update epidemic outbreak complaint", consumes = "application/json", produces = "application/json")
+	@ApiOperation(value = "Update epidemic outbreak complaint", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/update/epidemicOutbreakComplaint", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, headers = "Authorization")
 	public String updateEpidemicOutbreakComplaint(
 			@ApiParam(value = "{\"natureOfComplaint\":\"string\",\"totalPeopleAffected\":\"integer\",\"affectedDistrictID\":\"integer\","
@@ -91,7 +114,7 @@ public class EpidemicOutbreakController {
 			T_EpidemicOutbreak t_epidemicOutbreak = InputMapper.gson().fromJson(request, T_EpidemicOutbreak.class);
 			logger.info("saveEpidemicOutbreakComplaint request " + t_epidemicOutbreak.toString());
 			if (t_epidemicOutbreak != null && t_epidemicOutbreak.getRequestID() != null) {
-				String result = epidemicOutbreakServiceImpl.UpdateEpidemicOutbreakRequest(t_epidemicOutbreak);
+				String result = epidemicOutbreakService.UpdateEpidemicOutbreakRequest(t_epidemicOutbreak);
 				if (result != null)
 					output.setResponse(result);
 				else

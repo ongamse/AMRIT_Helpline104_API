@@ -1,3 +1,24 @@
+/*
+* AMRIT – Accessible Medical Records via Integrated Technology
+* Integrated EHR (Electronic Health Records) Solution
+*
+* Copyright (C) "Piramal Swasthya Management and Research Institute"
+*
+* This file is part of AMRIT.
+*
+* This program is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with this program.  If not, see https://www.gnu.org/licenses/.
+*/
 package com.iemr.helpline104.data.institute;
 
 import java.sql.Date;
@@ -11,14 +32,12 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 import com.google.gson.Gson;
 import com.google.gson.annotations.Expose;
 import com.iemr.helpline104.data.location.DistrictBranchMapping;
 import com.iemr.helpline104.data.location.Districts;
 import com.iemr.helpline104.data.location.States;
-
 
 @Entity
 @Table(name = "m_institution")
@@ -29,9 +48,6 @@ public class Institute {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "InstitutionID")
 	private Integer institutionID;
-	// m_bencall1097servicesmapping
-	// m_institutedirectorymapping
-	// t_feedback
 	@Expose
 	@Column(name = "InstitutionName")
 	private String institutionName;
@@ -77,9 +93,9 @@ public class Institute {
 		this.institutionID = institutionID;
 		this.institutionName = institutionName;
 	}
-	
+
 	public Institute(String institutionName, String address) {
-		
+
 		this.institutionName = institutionName;
 		this.address = address;
 	}
@@ -140,8 +156,6 @@ public class Institute {
 	public Date getLastModDate() {
 		return lastModDate;
 	}
-	
-	
 
 	@Override
 	public String toString() {

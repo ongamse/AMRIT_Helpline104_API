@@ -1,3 +1,24 @@
+/*
+* AMRIT – Accessible Medical Records via Integrated Technology
+* Integrated EHR (Electronic Health Records) Solution
+*
+* Copyright (C) "Piramal Swasthya Management and Research Institute"
+*
+* This file is part of AMRIT.
+*
+* This program is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with this program.  If not, see https://www.gnu.org/licenses/.
+*/
 package com.iemr.helpline104.data.drugMaster;
 
 import java.sql.Date;
@@ -13,16 +34,15 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.google.gson.annotations.Expose;
-import com.iemr.helpline104.data.location.M_ProviderServiceMapping;
 import com.iemr.helpline104.data.location.M_ServiceProvider;
 
 @Entity
-@Table(name="m_104druglist")
+@Table(name = "m_104druglist")
 public class M_DrugMaster {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer drugID;
-	
+
 	@Expose
 	@Column(name = "DrugName")
 	private String drugName;
@@ -32,7 +52,7 @@ public class M_DrugMaster {
 	@Expose
 	@Column(name = "Remarks")
 	private String remarks;
-	
+
 	@Expose
 	@Column(name = "ServiceProviderID")
 	private Integer serviceProviderID;
@@ -40,37 +60,35 @@ public class M_DrugMaster {
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(updatable = false, insertable = false, name = "ServiceProviderID")
 	private M_ServiceProvider m_ServiceProvider;
-	
+
 	@Expose
-	@Column(name = "Deleted",insertable = false, updatable = true)
-	private Boolean deleted; 
+	@Column(name = "Deleted", insertable = false, updatable = true)
+	private Boolean deleted;
 	@Expose
-	@Column(name = "Processed",insertable = false, updatable = true)
+	@Column(name = "Processed", insertable = false, updatable = true)
 	private String processed;
 	@Expose
 	@Column(name = "CreatedBy")
 	private String createdBy;
 	@Expose
-	@Column(name = "CreatedDate" ,insertable = false, updatable = false)
+	@Column(name = "CreatedDate", insertable = false, updatable = false)
 	private Date createdDate;
 	@Expose
 	@Column(name = "ModifiedBy")
-	private String modifiedBy; 
+	private String modifiedBy;
 	@Expose
 	@Column(name = "LastModDate", insertable = false, updatable = false)
 	private Date lastModDate;
-	
+
 	public M_DrugMaster() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
-
 	public M_DrugMaster(Integer drugID, String drugName) {
 		super();
 		this.drugID = drugID;
 		this.drugName = drugName;
 	}
-	
+
 	public M_DrugMaster(Integer drugID, String drugName, String drugDesc, String drugForm, String drugStrength,
 			String remarks) {
 		super();
@@ -103,7 +121,6 @@ public class M_DrugMaster {
 	public void setDrugDesc(String drugDesc) {
 		this.drugDesc = drugDesc;
 	}
-
 
 	public String getRemarks() {
 		return remarks;

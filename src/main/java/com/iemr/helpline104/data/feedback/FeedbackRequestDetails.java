@@ -1,3 +1,24 @@
+/*
+* AMRIT – Accessible Medical Records via Integrated Technology
+* Integrated EHR (Electronic Health Records) Solution
+*
+* Copyright (C) "Piramal Swasthya Management and Research Institute"
+*
+* This file is part of AMRIT.
+*
+* This program is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with this program.  If not, see https://www.gnu.org/licenses/.
+*/
 package com.iemr.helpline104.data.feedback;
 
 import java.sql.Date;
@@ -35,7 +56,6 @@ public class FeedbackRequestDetails {
 	private Boolean deleted;
 	@Expose
 	private String createdBy;
-	// private Date CreatedDate;
 	private String modifiedBy;
 	private Date lastModDate;
 
@@ -52,8 +72,7 @@ public class FeedbackRequestDetails {
 	}
 
 	/**
-	 * @param feedbackRequestID
-	 *            the feedbackRequestID to set
+	 * @param feedbackRequestID the feedbackRequestID to set
 	 */
 	public void setFeedbackRequestID(Long feedbackRequestID) {
 		this.feedbackRequestID = feedbackRequestID;
@@ -67,8 +86,7 @@ public class FeedbackRequestDetails {
 	}
 
 	/**
-	 * @param feedbackID
-	 *            the feedbackID to set
+	 * @param feedbackID the feedbackID to set
 	 */
 	public void setFeedbackID(Long feedbackID) {
 		this.feedbackID = feedbackID;
@@ -82,8 +100,7 @@ public class FeedbackRequestDetails {
 	}
 
 	/**
-	 * @param feedbackSupSummary
-	 *            the feedbackSupSummary to set
+	 * @param feedbackSupSummary the feedbackSupSummary to set
 	 */
 	public void setFeedbackSupSummary(String feedbackSupSummary) {
 		this.feedbackSupSummary = feedbackSupSummary;
@@ -97,8 +114,7 @@ public class FeedbackRequestDetails {
 	}
 
 	/**
-	 * @param supUserID
-	 *            the supUserID to set
+	 * @param supUserID the supUserID to set
 	 */
 	public void setSupUserID(Integer supUserID) {
 		this.supUserID = supUserID;
@@ -112,8 +128,7 @@ public class FeedbackRequestDetails {
 	}
 
 	/**
-	 * @param comments
-	 *            the comments to set
+	 * @param comments the comments to set
 	 */
 	public void setComments(String comments) {
 		this.comments = comments;
@@ -127,8 +142,7 @@ public class FeedbackRequestDetails {
 	}
 
 	/**
-	 * @param deleted
-	 *            the deleted to set
+	 * @param deleted the deleted to set
 	 */
 	public void setDeleted(Boolean deleted) {
 		this.deleted = deleted;
@@ -142,8 +156,7 @@ public class FeedbackRequestDetails {
 	}
 
 	/**
-	 * @param createdBy
-	 *            the createdBy to set
+	 * @param createdBy the createdBy to set
 	 */
 	public void setCreatedBy(String createdBy) {
 		this.createdBy = createdBy;
@@ -157,8 +170,7 @@ public class FeedbackRequestDetails {
 	}
 
 	/**
-	 * @param modifiedBy
-	 *            the modifiedBy to set
+	 * @param modifiedBy the modifiedBy to set
 	 */
 	public void setModifiedBy(String modifiedBy) {
 		this.modifiedBy = modifiedBy;
@@ -172,8 +184,7 @@ public class FeedbackRequestDetails {
 	}
 
 	/**
-	 * @param lastModDate
-	 *            the lastModDate to set
+	 * @param lastModDate the lastModDate to set
 	 */
 	public void setLastModDate(Date lastModDate) {
 		this.lastModDate = lastModDate;
@@ -187,8 +198,7 @@ public class FeedbackRequestDetails {
 	}
 
 	/**
-	 * @param feedback
-	 *            the feedback to set
+	 * @param feedback the feedback to set
 	 */
 	public void setFeedback(FeedbackDetails feedback) {
 		this.feedback = feedback;

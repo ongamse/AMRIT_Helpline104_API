@@ -1,3 +1,24 @@
+/*
+* AMRIT – Accessible Medical Records via Integrated Technology
+* Integrated EHR (Electronic Health Records) Solution
+*
+* Copyright (C) "Piramal Swasthya Management and Research Institute"
+*
+* This file is part of AMRIT.
+*
+* This program is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with this program.  If not, see https://www.gnu.org/licenses/.
+*/
 package com.iemr.helpline104.controller.covidMaster;
 
 import java.util.List;
@@ -15,10 +36,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-
 import com.iemr.helpline104.service.covidMaster.CovidMasterService;
 import com.iemr.helpline104.utils.response.OutputResponse;
-
 
 import io.swagger.annotations.ApiOperation;
 
@@ -27,13 +46,12 @@ import io.swagger.annotations.ApiOperation;
 @RequestMapping(value = "/master", headers = "Authorization")
 
 public class CovidMasterController {
-	
+
 	private Logger logger = LoggerFactory.getLogger(CovidMasterController.class);
 	@Autowired
 	private CovidMasterService covidMasterService;
-	
-	
-	@ApiOperation(value = "Master Data  for covid Patient", consumes = "application/json", produces = "application/json")
+
+	@ApiOperation(value = "Master data  for COVID patient", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = {
 			"/patient/covidDetails/{providerServiceMapID}" }, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON)
 	public String patientAppMasterData(@PathVariable("providerServiceMapID") Integer providerServiceMapID) {
@@ -44,9 +62,9 @@ public class CovidMasterController {
 		logger.info("Nurse master Data for beneficiary:" + response.toString());
 		return response.toString();
 	}
-	
+
 	@CrossOrigin
-	@ApiOperation(value = "Save Covid  data..", consumes = "application/json", produces = "application/json")
+	@ApiOperation(value = "Save COVID data", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = { "/save/covidScreeningData" }, method = { RequestMethod.POST })
 	public String saveBenCovidDoctorData(@RequestBody String requestObj,
 			@RequestHeader(value = "Authorization") String Authorization) {

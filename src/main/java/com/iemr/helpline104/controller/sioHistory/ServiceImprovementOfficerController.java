@@ -1,3 +1,24 @@
+/*
+* AMRIT – Accessible Medical Records via Integrated Technology
+* Integrated EHR (Electronic Health Records) Solution
+*
+* Copyright (C) "Piramal Swasthya Management and Research Institute"
+*
+* This file is part of AMRIT.
+*
+* This program is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with this program.  If not, see https://www.gnu.org/licenses/.
+*/
 package com.iemr.helpline104.controller.sioHistory;
 
 import javax.ws.rs.core.MediaType;
@@ -23,16 +44,18 @@ import com.iemr.helpline104.service.organDonation.OrganDonationServiceImpl;
 import com.iemr.helpline104.utils.mapper.InputMapper;
 import com.iemr.helpline104.utils.response.OutputResponse;
 
+import io.swagger.annotations.ApiOperation;
+
 /**
  * Controller class to get the Sio history data for a particular beneficiary
  *
  */
 @RequestMapping(value = "/beneficiary")
 @RestController
-public class SioHistoryController {
+public class ServiceImprovementOfficerController {
 
 	InputMapper mapper = new InputMapper();
-	private Logger logger = LoggerFactory.getLogger(SioHistoryController.class);
+	private Logger logger = LoggerFactory.getLogger(ServiceImprovementOfficerController.class);
 
 	@Autowired
 	private BloodRequestServiceImpl bloodRequestServiceImpl;
@@ -48,6 +71,7 @@ public class SioHistoryController {
 	private FoodSafetyCopmlaintServiceImpl foodSafetyCopmlaintServiceImpl;
 
 	@CrossOrigin
+	@ApiOperation(value = "Get sio history", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/getSioHistory", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON, consumes = MediaType.APPLICATION_JSON, headers = "Authorization")
 	public String getSioHistory(@RequestBody String benificiary) {
 

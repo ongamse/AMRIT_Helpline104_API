@@ -1,3 +1,24 @@
+/*
+* AMRIT – Accessible Medical Records via Integrated Technology
+* Integrated EHR (Electronic Health Records) Solution
+*
+* Copyright (C) "Piramal Swasthya Management and Research Institute"
+*
+* This file is part of AMRIT.
+*
+* This program is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with this program.  If not, see https://www.gnu.org/licenses/.
+*/
 package com.iemr.helpline104.controller.users;
 
 import java.util.ArrayList;
@@ -25,25 +46,30 @@ import com.iemr.helpline104.data.users.M_Role;
 import com.iemr.helpline104.data.users.M_User;
 import com.iemr.helpline104.data.users.M_UserSecurityQMapping;
 import com.iemr.helpline104.data.users.M_UserServiceRoleMapping;
+import com.iemr.helpline104.service.users.IEMRAdminUserService;
 import com.iemr.helpline104.service.users.IEMRAdminUserServiceImpl;
 import com.iemr.helpline104.utils.response.OutputResponse;
+
+import io.swagger.annotations.ApiOperation;
 
 @CrossOrigin
 @RequestMapping(value = "/user")
 @RestController
 public class IEMRAdminController {
-	private IEMRAdminUserServiceImpl iemrAdminUserServiceImpl;
+	@Autowired
+	private IEMRAdminUserService iemrAdminUserService;
 
 	@Autowired
 	public void setIemrAdminUserService(IEMRAdminUserServiceImpl iemrAdminUserService) {
-		this.iemrAdminUserServiceImpl = iemrAdminUserService;
+		this.iemrAdminUserService = iemrAdminUserService;
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "User authenticate", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = { "/userAuthenticate" }, method = {
 			org.springframework.web.bind.annotation.RequestMethod.POST }, produces = { "application/json" })
 	public String userAuthenticate(@RequestBody M_User m_User) {
-		List<M_User> mUser = this.iemrAdminUserServiceImpl.userAuthenticate(m_User.getUserName(), m_User.getPassword());
+		List<M_User> mUser = this.iemrAdminUserService.userAuthenticate(m_User.getUserName(), m_User.getPassword());
 
 		Map<Object, Object> resMap = new HashMap();
 		Multimap<String, String> serviceRoleMultiMap = ArrayListMultimap.create();
@@ -81,16 +107,17 @@ public class IEMRAdminController {
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Forget password", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = { "/forgetPassword" }, method = {
 			org.springframework.web.bind.annotation.RequestMethod.POST }, produces = { "application/json" })
 	public String forgetPassword(@RequestBody M_User m_User) {
-		M_User mUser = this.iemrAdminUserServiceImpl.userExitsCheck(m_User.getUserName());
+		M_User mUser = this.iemrAdminUserService.userExitsCheck(m_User.getUserName());
 
 		List<Map<String, String>> quesAnsList = new ArrayList();
 		Map<String, String> quesAnsMap;
 		Map<Object, Object> resMap = new HashMap();
 		if (mUser != null) {
-			List<M_UserSecurityQMapping> mUserSecQuesMapping = this.iemrAdminUserServiceImpl
+			List<M_UserSecurityQMapping> mUserSecQuesMapping = this.iemrAdminUserService
 					.userSecurityQuestion(mUser.getUserID());
 			if (mUserSecQuesMapping != null) {
 				for (M_UserSecurityQMapping element : mUserSecQuesMapping) {
@@ -109,15 +136,16 @@ public class IEMRAdminController {
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Set forget password", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = { "/setForgetPassword" }, method = {
 			org.springframework.web.bind.annotation.RequestMethod.POST }, produces = { "application/json" })
 	public String setPassword(@RequestBody M_User m_user) {
 		int noOfRowModified = 0;
 
-		M_User mUser = this.iemrAdminUserServiceImpl.userExitsCheck(m_user.getUserName());
+		M_User mUser = this.iemrAdminUserService.userExitsCheck(m_user.getUserName());
 		String setStatus;
 		if (mUser != null) {
-			noOfRowModified = this.iemrAdminUserServiceImpl.setForgetPassword(mUser.getUserID(), m_user.getPassword());
+			noOfRowModified = this.iemrAdminUserService.setForgetPassword(mUser.getUserID(), m_user.getPassword());
 			if (noOfRowModified > 0) {
 				setStatus = "Password Changed";
 			} else {
@@ -131,16 +159,17 @@ public class IEMRAdminController {
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Change password", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = { "/changePassword" }, method = {
 			org.springframework.web.bind.annotation.RequestMethod.POST }, produces = { "application/json" })
 	public String changePassword(@RequestBody M_User m_User) {
 		int noOfRowUpdated = 0;
 
-		M_User mUser = this.iemrAdminUserServiceImpl.userWithOldPassExitsCheck(m_User.getUserName(),
+		M_User mUser = this.iemrAdminUserService.userWithOldPassExitsCheck(m_User.getUserName(),
 				m_User.getPassword());
 		String changeReqResult;
 		if (mUser != null) {
-			noOfRowUpdated = this.iemrAdminUserServiceImpl.setForgetPassword(mUser.getUserID(),
+			noOfRowUpdated = this.iemrAdminUserService.setForgetPassword(mUser.getUserID(),
 					m_User.getNewPassword());
 			if (noOfRowUpdated > 0) {
 				changeReqResult = "Password SuccessFully Change";
@@ -154,13 +183,14 @@ public class IEMRAdminController {
 	}
 
 	@CrossOrigin()
+	@ApiOperation(value = "Save user security question answers", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/saveUserSecurityQuesAns", method = RequestMethod.POST, produces = "application/json")
 	public String saveUserSecurityQuesAns(@RequestBody Iterable<M_UserSecurityQMapping> m_UserSecurityQMapping) {
 		int responseData = 0;
 
 		Map<String, String> resMap = new HashMap<String, String>();
 
-		responseData = iemrAdminUserServiceImpl.saveUserSecurityQuesAns(m_UserSecurityQMapping);
+		responseData = iemrAdminUserService.saveUserSecurityQuesAns(m_UserSecurityQMapping);
 
 		if (responseData > 0)
 			resMap.put("status", "Changed");
@@ -175,31 +205,28 @@ public class IEMRAdminController {
 	 * @return security qtns
 	 */
 	@CrossOrigin()
+	@ApiOperation(value = "Get security quetions", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/getsecurityquetions", method = RequestMethod.GET)
 	public String getSecurityts() {
-		ArrayList<M_LoginSecurityQuestions> test = iemrAdminUserServiceImpl.getAllLoginSecurityQuestions();
+		ArrayList<M_LoginSecurityQuestions> test = iemrAdminUserService.getAllLoginSecurityQuestions();
 		return test.toString();
 	}
-	
+
 	@CrossOrigin()
+	@ApiOperation(value = "Get role wrap up time", consumes = "application/json", produces = "application/json")
 	@RequestMapping(value = "/role/{roleID}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON, headers = "Authorization")
 	public String getrolewrapuptime(@PathVariable("roleID") Integer roleID) {
-		
-		
+
 		OutputResponse response = new OutputResponse();
-		try
-		{
-			M_Role test = iemrAdminUserServiceImpl.getrolewrapuptime(roleID);
-			if(test==null) {
+		try {
+			M_Role test = iemrAdminUserService.getrolewrapuptime(roleID);
+			if (test == null) {
 				throw new Exception("RoleID Not Found");
 			}
 			response.setResponse(test.toString());
-		} catch (Exception e)
-		{
+		} catch (Exception e) {
 			response.setError(e);
 		}
-//		logger.info("response is " + response.toStringWithSerialization());
 		return response.toString();
-//		return test.toString();
 	}
 }

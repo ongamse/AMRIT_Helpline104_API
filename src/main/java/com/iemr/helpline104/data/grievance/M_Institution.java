@@ -1,3 +1,24 @@
+/*
+* AMRIT – Accessible Medical Records via Integrated Technology
+* Integrated EHR (Electronic Health Records) Solution
+*
+* Copyright (C) "Piramal Swasthya Management and Research Institute"
+*
+* This file is part of AMRIT.
+*
+* This program is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with this program.  If not, see https://www.gnu.org/licenses/.
+*/
 package com.iemr.helpline104.data.grievance;
 
 import java.sql.Date;
@@ -11,40 +32,36 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="m_institution")
+@Table(name = "m_institution")
 public class M_Institution {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="InstitutionID")
+	@Column(name = "InstitutionID")
 	private int InstitutionID;
-	@Column(name="InstitutionName")
+	@Column(name = "InstitutionName")
 	private String institutionName;
-	@Column(name="StateID")
-	private int stateID; 
-	@Column(name="DistrictID")
+	@Column(name = "StateID")
+	private int stateID;
+	@Column(name = "DistrictID")
 	private int districtID;
-	@Column(name="DistrictBranchMappingID")
+	@Column(name = "DistrictBranchMappingID")
 	private int districtBranchMappingID;
-	@Column(name="Deleted", insertable=false, updatable=true)
+	@Column(name = "Deleted", insertable = false, updatable = true)
 	private Boolean deleted;
-	@Column(name="CreatedBy")
-	private String createdBy; 
-	@Column(name="CreatedDate", insertable=false, updatable=false)
+	@Column(name = "CreatedBy")
+	private String createdBy;
+	@Column(name = "CreatedDate", insertable = false, updatable = false)
 	private Date createdDate;
-	@Column(name="ModifiedBy")
+	@Column(name = "ModifiedBy")
 	private String modifiedBy;
-	@Column(name="LastModDate")
+	@Column(name = "LastModDate")
 	private Date lastModDate;
-	
-	
-	
-	
-	@OneToOne(mappedBy="minstitution")
+
+	@OneToOne(mappedBy = "minstitution")
 	private T_Feedback Feedback;
-	
+
 	public M_Institution() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public int getInstitutionID() {
@@ -134,7 +151,5 @@ public class M_Institution {
 	public void setFeedback(T_Feedback feedback) {
 		Feedback = feedback;
 	}
-
-	
 
 }
